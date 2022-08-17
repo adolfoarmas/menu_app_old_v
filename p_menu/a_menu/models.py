@@ -10,7 +10,6 @@ from PIL import Image
 
 
 # Create your models here.
-
 class Dish_Category(models.Model):
     """
     This model represents the Dish category
@@ -24,7 +23,19 @@ class Dish_Category(models.Model):
 
     class Meta:
         verbose_name = ('Dish Category')
-        verbose_name_plural = ('Dish Categorys')
+        verbose_name_plural = ('Dish Categories')
+        
+
+    def get_related_dishes(self):
+        return 
+        ...
+
+
+# class DishManager(models.Manager):
+#     def get_dishes_by_category(self):
+#         dishes = Dish.objects.all()
+#         dishes_by_category = dishes.category.all()
+#         return dishes_by_category
 
 
 class Dish(models.Model):
@@ -37,7 +48,7 @@ class Dish(models.Model):
     category = models.ForeignKey(Dish_Category, on_delete=models.CASCADE)
     observation = models.TextField(blank=True)
     image = models.ImageField()
-    created_by = models.ForeignKey(UserProfile, default='4', on_delete=models.SET_DEFAULT)
+    created_by = models.ForeignKey(UserProfile, default='4', on_delete=models.CASCADE)
     price = models.FloatField(default=0)
     currency = models.CharField(default='USD', max_length=3)
 
@@ -48,6 +59,7 @@ class Dish(models.Model):
         return reverse('', kwargs={'pk': self.pk})  
 
     def save(self, *args, **kwargs):
+        print(kwargs)
         super().save(*args, **kwargs)
         force_height = 150
         force_width = 150
