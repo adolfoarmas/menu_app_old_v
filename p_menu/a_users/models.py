@@ -15,12 +15,9 @@ class UserProfileManager(BaseUserManager):
             raise ValueError('username field is mandatory for new user')
         
         email = self.normalize_email(email)
-
         user = self.model(email=email, username=username)
-
         user.set_password(password)
         user.save(using=self._db)
-
         return user
 
     def create_superuser(self, email, username, password):
@@ -34,7 +31,7 @@ class UserProfileManager(BaseUserManager):
 
 
 class UserProfile(AbstractBaseUser,PermissionsMixin):
-    """ Bata Base model for Profiles """
+    """ Base model for Profiles """
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
