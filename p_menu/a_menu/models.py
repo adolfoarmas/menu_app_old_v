@@ -1,11 +1,9 @@
-from math import degrees
-from unittest.util import _MAX_LENGTH
 from django.db import models
 from django.utils import timezone
 from a_users.models import UserProfile
 from django.urls import reverse
-from pkg_resources import require
 from PIL import Image
+from django.conf import settings
 
 
 
@@ -16,7 +14,7 @@ class Dish_Category(models.Model):
     """
     name = models.CharField(max_length=20, blank=True, unique=True)
     description = models.CharField(max_length=50, blank=True)
-    created_by = models.ForeignKey(UserProfile, default='4', on_delete=models.SET_DEFAULT)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, default='4', on_delete=models.SET_DEFAULT)
 
     def __str__(self):
         return self.name
@@ -48,7 +46,7 @@ class Dish(models.Model):
     category = models.ForeignKey(Dish_Category, on_delete=models.CASCADE)
     observation = models.TextField(blank=True)
     image = models.ImageField()
-    created_by = models.ForeignKey(UserProfile, default='4', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, default='4', on_delete=models.SET_DEFAULT)
     price = models.FloatField(default=0)
     currency = models.CharField(default='USD', max_length=3)
 

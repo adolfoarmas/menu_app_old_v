@@ -141,7 +141,7 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-#Custom auth an user register
+#Custom auth user register
 AUTH_USER_MODEL = 'a_users.UserProfile'
 
 CORS_ALLOW_ALL_ORIGINS = True
