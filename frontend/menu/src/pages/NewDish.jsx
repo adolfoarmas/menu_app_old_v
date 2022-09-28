@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from "react";
 import UserLogin from "./UserLogin";
+import getDishCategories from "../services/getDishCategories";
 
 const NewDish = (token) => {
 
 
     const [categoriesList, setCategoriesList] = useState([])
     const [errorText, setErrorText] = useState();
-
     const [dishName, setDishName] = useState();
     const [dishDescription, setdishDescription] = useState();
     const [dishCategory, setdishCategory] = useState();
@@ -16,14 +16,9 @@ const NewDish = (token) => {
     const [dishCurrency, setdishCurrency] = useState();
 
     useEffect(()=> {
-        getCategories()
+        getDishCategories()
+        .then(categories => setCategoriesList(categories))
     }, [])
-
-    let getCategories = async () => {
-        let response = await fetch('/api/categories/')
-        let data = await response.json()
-        setCategoriesList(data)    
-    }
 
     const handleErrors = (response) => {
         if(!response.ok){
@@ -58,7 +53,6 @@ const NewDish = (token) => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        console.log(dishCategory)
         CreateDish({
         'name':dishName,
         'description':dishDescription,
@@ -86,17 +80,10 @@ const NewDish = (token) => {
                 <label>
                     <p>Category:</p>
                     <select onChange={e => setdishCategory((e.target.value))}>
-                        
-                    {
-                        
-                    categoriesList.map((categorie, index) =>
+                    {categoriesList.map((categorie, index) =>
                         <>console.log(categorie)
                        <option key={index} value={categorie}>{categorie.name}</option>
-                       </>
-                        
-                    )
-                    }
-                    
+                       </>)}
                 </select>
                 </label>
                 <label>

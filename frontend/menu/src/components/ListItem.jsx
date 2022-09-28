@@ -1,6 +1,4 @@
-import React, {useState, useEffect} from "react";
-
-
+import React, {useEffect, useState} from "react";
 
 function showAdditional(element) {
     const alertInformation = Object.entries(element)
@@ -9,24 +7,31 @@ function showAdditional(element) {
     alert(alertInformation)
   };
 
+const ListItem = ( props ) => {
 
-const ListItem = ({ dish }) => {
+    let [dish, setDish] = useState({})
 
-    return (
-    <div className="dish-element">
+    useEffect(()=>{
+        setDish(props.dish)
+    },[])
 
+
+    if (props.visible && dish){
         
-            <img src={dish.image} alt= {dish.name}  />
-            <div className="dish-title-description">
-                <h3>{dish.name}</h3>
-                <p><em>{dish.description}</em></p>
+        return (
+            <div className="dish-element">
+                    <img src={dish.image} alt= {dish.name}  />
+                    <div className="dish-title-description">
+                        <h3>{dish.name}</h3>
+                        <p><em>{dish.description}</em></p>
+                    </div>
+                    <div className="dish-price">
+                        <p>{dish.currency}  {dish.price}</p>
+                    </div>
+                    <button onClick={() => showAdditional(dish)}>More Info</button>
             </div>
-            <div className="dish-price">
-                <p>{dish.currency}  {dish.price}</p>
-            </div>
-            <button onClick={() => showAdditional(dish)}>More Info</button>
-        </div>
-    )
+        )
+    }
 }
 
 export default ListItem;

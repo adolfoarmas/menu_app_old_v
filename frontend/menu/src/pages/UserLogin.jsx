@@ -1,64 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import PropTypes from 'prop-types';
 import { Navigate } from "react-router-dom";
+import loginUser from "../services/loginUser.js"
+import { Context, UserContextProvider } from "../context/userContext"
 
-const UserLogin = ({setToken}) => {
+const UserLogin = () => {
 
-
-    useEffect(() => {
-
-    const logedUserMenuApp = window.localStorage.getItem('logedUserMenuApp')
-    if (logedUserMenuApp) {
-        const user = JSON.parse(logedUserMenuApp)
-    }
-
-    }, [])
-
-    const handleErrors = (response) => {
-        if(!response.ok){
-            return setErrorText("Please check username o password, the combination you provided does not match")
-        }
-        return response
-    }
+    const [username, setUserName] = useState(null);
+    const [password, setPassword] = useState(null);
+    //const [token, setToken] = useState(null);
+    const [errorText, setErrorText] = useState("")
+    const [userLogged, setUserLogged] = useContext(Context)
     
-
-    async function LoginUser(credentials) {
-        return fetch('api/login/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(credentials)
-        })
-        .then(handleErrors)
-        .then(data => data.json())
-    }
-    
-    
-    const [username, setUserName] = useState();
-    const [password, setPassword] = useState();
-    const [user, setUser] = useState(null);
-    //const [token, setToken] = useState();
-    const [errorText, setErrorText] = useState();
 
     const handleSubmit = async e => {
         e.preventDefault();
 
-        const user = await LoginUser({
+        await loginUser({
             username,
             password
-        });
+        })
+        .then((data) => {
+            if (data.error){
+                return setErrorText(data.error)
+            }
+            window.localStorage.setItem('logedUserMenuApp', data.key)
+            setUserLogged(data.key)
+        })
 
-        window.localStorage.setItem(
-            'logedUserMenuApp', JSON.stringify(user)
-        )
-
-        setUser(user)
-        setUserName('')
-        setPassword('')
-
-
-        setToken(user.token);
     }
 
     return (
@@ -78,7 +47,7 @@ const UserLogin = ({setToken}) => {
                     <button type="submit">Login</button>
                 </div>
             </form>
-            {user && <Navigate to="/newDish" replace={true} />}
+            {userLogged && <Navigate to="/" replace={true} />}
         </div>
         
 )

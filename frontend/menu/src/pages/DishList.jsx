@@ -1,45 +1,28 @@
 import React, {useState, useEffect} from "react";
 import CategoryItem from '../components/CategoryItem'
 import ListItem from '../components/ListItem'
-
+import getDishCategories from "../services/getDishCategories";
 
 const DishList = () => {
-
-
-    let category = ''
     
     let [categories, setCategories] = useState([])
+
     
 
     useEffect(()=> {
-        getCategories()
-    }, [])
 
-    let getCategories = async () => {
-
-        let response = await fetch('/api/categories/')
-        let data = await response.json()
-        setCategories(data)
+        getDishCategories()
+        .then(categories => setCategories(categories))
         
-    }   
-
+    }, [])
 
     return (
         <div>
             <div className="dish-list">
                 {
                 <div>
-                    {categories.map((category, index) => (
-                        
-                        <>
-                        {<CategoryItem key={index} category={category.name} />}
-                        {console.log(category.dishes)}
-                        {category.dishes.map((dish, index)=>(
-                            <ListItem key={index} dish={dish} />
-                        ))}
-                        </>
-                        
-                        
+                    {categories.map((category, index) => (   
+                        <CategoryItem key={index} category={category} />
                     ))}
                 </div>
                 }
