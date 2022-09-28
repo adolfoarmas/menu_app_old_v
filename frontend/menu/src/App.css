@@ -1,5 +1,5 @@
 html {
-  background: url("/home/adolfo/menu_app/frontend/menu/img/385736.jpg") no-repeat center center fixed;
+  /*background: url("/home/adolfo/menu_app/frontend/menu/img/iStock-533776553.jpg") no-repeat center center fixed;*/
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -12,12 +12,19 @@ html {
 .App {
   text-align: center;
   background-color: #282c34;
+  flex-basis: 0;
+  flex-grow: 2;
+  min-width: 70%;
+  /* width: 1200px;
+  max-width: calc(100% - 20px);
+  margin: 0 auto;
+  padding: 0 10px; */
 }
 
 .App-header {
   background-color: #979ba37b;
-  min-height: 10vh;
-  display: flex;
+  /* min-height: 10vh;
+  display: flex; */
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -85,7 +92,7 @@ html {
 }
 
 .dish-element {
-  display:flex;
+  display:flex ;
   color: aliceblue;
   background-color: #282c34;
   width: 60rem;
@@ -93,6 +100,7 @@ html {
   margin: 15px 0px 15px 0px;
   border-radius: 5px;
   align-content: center;
+  justify-content: baseline;
 }
 
 .dish-title-description {
