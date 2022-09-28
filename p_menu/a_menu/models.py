@@ -37,10 +37,10 @@ class Dish(models.Model):
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField(max_length=200)
     date = models.DateTimeField(default=timezone.now)
-    category = models.ForeignKey(Dish_Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Dish_Category, related_name='dishes', on_delete=models.CASCADE)
     observation = models.TextField(blank=True)
     image = models.ImageField()
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, default='4', on_delete=models.SET_DEFAULT)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='created_by', on_delete=models.CASCADE)
     price = models.FloatField(default=0)
     currency = models.CharField(default='USD', max_length=3)
 

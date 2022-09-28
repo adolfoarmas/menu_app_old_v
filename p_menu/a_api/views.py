@@ -10,10 +10,11 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
-from .permissions.permissions import IsAuthorOrReadOnly
+from .permissions.permissions import IsAuthenticatedUserOrReadOnlyUser, IsAuthenticatedUserOrReadOnlyMenu
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.settings import api_settings
-
+from django.contrib.auth import get_user_model
+from django_filters.rest_framework import DjangoFilterBackend
 
 #from rest_framework.settings import api_settings
 
@@ -38,9 +39,11 @@ from .serializers.serializers import DishSerializer, DishCategorySerializer
 class DishList(generics.ListCreateAPIView):
     queryset = Dish.objects.all()
     serializer_class = DishSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['category',]
 
 class DishDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthorOrReadOnly,)
+    permission_classes = (IsAuthenticatedUserOrReadOnlyMenu,)
     queryset = Dish.objects.all()
     serializer_class = DishSerializer
 
@@ -49,19 +52,16 @@ class DishCategoryList(generics.ListCreateAPIView):
     serializer_class = DishCategorySerializer
 
 class DishCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthorOrReadOnly,)
+    permission_classes = (IsAuthenticatedUserOrReadOnlyMenu,)
     queryset = Dish_Category.objects.all()
     serializer_class = DishCategorySerializer
 
-
-class UserProfileViewSet(viewsets.ModelViewSet):
-    
+class UserList(generics.ListCreateAPIView):
+    permission_classes = (IsAuthenticatedUserOrReadOnlyUser,)
+    queryset = get_user_model().objects.all()
     serializer_class = UserProfileSerializer
-    queryset = UserProfile.objects.all()
-    #authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthorOrReadOnly,)
-    filter_backends = (filters.SearchFilter, )
-    search_fields = ('name', 'email')
 
-class UserLoginApiView(ObtainAuthToken):
-    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsAuthenticatedUserOrReadOnlyUser,)
+    queryset = get_user_model().objects.all()
+    serializer_class = UserProfileSerializer

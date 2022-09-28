@@ -24,7 +24,9 @@ from a_users import views as users_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('a_api.urls')),
-    path('api-auth/', include("rest_framework.urls")),
+    path('browser/api-auth/', include("rest_framework.urls")), #authentication urls for browsable api
+    path('api/auth/', include("dj_rest_auth.urls")), #autentication endpoints
+    path('api/auth/registration/', include("dj_rest_auth.registration.urls")), #user registration endpoint
 ] 
 
 if settings.DEBUG:

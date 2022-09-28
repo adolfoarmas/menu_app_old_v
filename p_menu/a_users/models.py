@@ -1,8 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, PermissionManager, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractUser, UserManager
 
 
-# class UserProfileManager(BaseUserManager):
+# class UserProfileManager(AbstractUserManager):
 #     """ Profle Users Manager """
 
 #     def create_user(self, email, username, password=None):
@@ -32,7 +32,7 @@ from django.contrib.auth.models import AbstractUser, PermissionManager, BaseUser
 class UserProfile(AbstractUser):
     """ Base model for Profiles """
     name = models.CharField(null=True, blank=True, max_length=255)
-
+    
     #objects = UserProfileManager()
     
     # def get_full_name(self):
