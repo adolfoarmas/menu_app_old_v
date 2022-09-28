@@ -1,10 +1,32 @@
 from rest_framework import permissions
 
-class UpdateOwnProfile(permissions.BasePermission):
+# class IsAuthenticatedUser(permissions.BasePermission):
 
-    def has_object_permission(self, request, view, obj):
+    # def has_permission(self, request, view):
+    #     if request.user.is_authenticated:
+    #         return True
+    #     return False
 
-        if request.method in permissions.SAFE_METHODS:
+class IsAuthenticatedUserOrReadOnlyUser(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+
+        user = request.user
+
+        if user.is_authenticated and user.is_staff:
             return True
-        
-        return obj.id == request.user.id
+
+        if user.is_authenticated and request.method in permissions.SAFE_METHODS:
+            return True
+
+        return False
+
+class IsAuthenticatedUserOrReadOnlyMenu(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+
+        user = request.user
+        if user.is_authenticated:
+            return True
+
+        return False

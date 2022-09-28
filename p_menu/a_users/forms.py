@@ -1,5 +1,3 @@
-from statistics import mode
-from unittest import mock
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from .models import UserProfile
@@ -7,7 +5,7 @@ from .models import UserProfile
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = UserProfile
-        fields = UserCreationForm.Meta.fields + ("email", "username","is_active","is_staff",)
+        fields = UserCreationForm.Meta.fields + ("name",)
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:

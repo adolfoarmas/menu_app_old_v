@@ -13,8 +13,8 @@ class Dish_Category(models.Model):
     This model represents the Dish category
     """
     name = models.CharField(max_length=20, blank=True, unique=True)
-    description = models.CharField(max_length=50, blank=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, default='4', on_delete=models.SET_DEFAULT)
+    description = models.CharField(max_length=100, blank=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -22,12 +22,6 @@ class Dish_Category(models.Model):
     class Meta:
         verbose_name = ('Dish Category')
         verbose_name_plural = ('Dish Categories')
-        
-
-    def get_related_dishes(self):
-        return 
-        ...
-
 
 # class DishManager(models.Manager):
 #     def get_dishes_by_category(self):
@@ -43,10 +37,10 @@ class Dish(models.Model):
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField(max_length=200)
     date = models.DateTimeField(default=timezone.now)
-    category = models.ForeignKey(Dish_Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Dish_Category, related_name='dishes', on_delete=models.CASCADE)
     observation = models.TextField(blank=True)
     image = models.ImageField()
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, default='4', on_delete=models.SET_DEFAULT)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='created_by', on_delete=models.CASCADE)
     price = models.FloatField(default=0)
     currency = models.CharField(default='USD', max_length=3)
 
