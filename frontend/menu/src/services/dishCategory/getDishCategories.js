@@ -1,4 +1,4 @@
-import {DISH_CATEGORIES} from "./settings.js"
+import {DISH_CATEGORIES} from "../settings.js"
 
 const handleErrors = (response) => {
     if(!response.ok){

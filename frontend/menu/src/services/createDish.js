@@ -1,4 +1,4 @@
-
+import {DISHES_END_POINT} from './settings.js'
 
 
 const handleErrors = (response) => {
@@ -9,7 +9,7 @@ const handleErrors = (response) => {
 }
 
 export default async function createDish(payload){
-    return fetch('api/dishes/', {
+    return fetch(DISHES_END_POINT, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
