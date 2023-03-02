@@ -1,16 +1,20 @@
-import React, { useEffect, useState, useContext } from "react";
-import PropTypes from 'prop-types';
+import React, { useState, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import loginUser from "../services/loginUser.js"
-import { Context, UserContextProvider } from "../context/userContext"
+import getUserData from "../services/user/getUserData"
+import { Context } from "../context/userContext"
 
 const UserLogin = () => {
 
     const [username, setUserName] = useState(null);
     const [password, setPassword] = useState(null);
-    //const [token, setToken] = useState(null);
     const [errorText, setErrorText] = useState("")
-    const [userLogged, setUserLogged] = useContext(Context)
+
+    const {token, csfrToken, userLoggedId} = useContext(Context)
+
+    const [tokenValue, setTokenValue] = token
+    const [csfrTokenValue, setCsfrTokenValue] = csfrToken
+    const [userLoggedIdValue, setUserLoggedData] = userLoggedId
     
 
     const handleSubmit = async e => {
@@ -24,9 +28,16 @@ const UserLogin = () => {
             if (data.error){
                 return setErrorText(data.error)
             }
-            window.localStorage.setItem('logedUserMenuApp', data.key)
-            setUserLogged(data.key)
+            window.localStorage.setItem('logedUserToken', data.key)
+            setTokenValue(data.key)
+            getUserData(username)
+            .then(data => {
+                console.log(data)
+                window.localStorage.setItem('logedUserId', data[0]['id'])
+                setUserLoggedData(data[0])
+            })
         })
+
 
     }
 
@@ -47,7 +58,7 @@ const UserLogin = () => {
                     <button type="submit">Login</button>
                 </div>
             </form>
-            {userLogged && <Navigate to="/" replace={true} />}
+            {tokenValue && <Navigate to="/" replace={true} />}
         </div>
         
 )
@@ -55,8 +66,5 @@ const UserLogin = () => {
 
 export default UserLogin;
 
-// UserLogin.protoTypes = {
-//     setToken: PropTypes.func.isRequired
-// }
 
 
