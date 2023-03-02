@@ -31,9 +31,8 @@ const UserContextProvider = ({ children }) => {
           setUserLogged(getUserLoggedTokenValue)
           setCsrfToken(getCsrftokenValue)
           setUserLoggedId(getUserLoggedId)
-          console.log('token', userLogged, 'csfrtoken', csrfToken)
+          //console.log('token', userLogged, 'csfrtoken', csrfToken)
         }
-
       });
 
     return (

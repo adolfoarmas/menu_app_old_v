@@ -1,6 +1,5 @@
 import {DISHES_END_POINT} from '../settings.js'
 
-
 const handleErrors = (response) => {
     if(!response.ok){
         return {'error':response.statusText}
@@ -8,21 +7,17 @@ const handleErrors = (response) => {
     return response
 }
 
-export default async function createDishCategory(payload, dishId, token, csfrToken,){
+export default async function editDish(payload, dishId, token, csfrToken){
+    console.log(payload)
     return fetch(DISHES_END_POINT + dishId + '/', {
-        method: 'PATCH',
+        method: 'PUT',
         headers: {
-            'Content-Type': 'application/json',
+            //'Content-Type': 'application/json',
             'Authorization': `Token` + token, 
             'X-CSRFToken':  csfrToken
         },
-        body: JSON.stringify(payload)
+        body: payload
     })
     .then(handleErrors)
-    .then(data => {
-        if(!data.error){
-            return data.json()
-        }
-        return data
-        })
+    .then(data => data.json())
 }

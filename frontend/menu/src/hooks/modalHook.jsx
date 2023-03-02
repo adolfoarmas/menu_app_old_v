@@ -32,7 +32,7 @@ function ModalHook ( {modalHook, content} ) {
                 <ModalArea onClick={(e) => e.stopPropagation() }> 
                     <Title> {modalHook.title} </Title>
                     <BtnClose onClick={modalHook.changeShow }> X </BtnClose>
-                    <br /> 
+                    <br/> 
                     {content}
                 </ModalArea>
             </ModalBackArea>  
@@ -41,6 +41,7 @@ function ModalHook ( {modalHook, content} ) {
 }
 
 export default ModalHook 
+
 export {
     useModal 
 }
