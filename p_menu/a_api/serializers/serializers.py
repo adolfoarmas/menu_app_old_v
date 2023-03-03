@@ -3,19 +3,32 @@ from a_menu.models import Dish, Dish_Category
 from django.contrib.auth import get_user_model
 from a_users.models import UserProfile
 from drf_extra_fields.fields import Base64ImageField
+from rest_framework.parsers import MultiPartParser
+
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
     
     class Meta:
         model= get_user_model()
-        fields = ('email', 'username', 'name', 'is_active', 'is_staff' )
+        fields = ('id', 'email', 'username', 'name', 'is_active', 'is_staff' )
 
 
 class DishSerializer(serializers.ModelSerializer):
+
+    image = serializers.FileField()
+    parser_classes = (MultiPartParser,)
+
     class Meta:
         model = Dish
-        fields = ['name', 'description', 'date', 'category', 'observation', 'image', 'created_by', 'price', 'currency']
+        fields = ['id', 'url', 'name', 'description', 'date', 'category', 'observation', 'image', 'created_by', 'price', 'currency']
+
+    def validate_image(self, value):
+
+        # Ensure that the image is not too large
+        if value.size > 5 * 1024 * 1024:
+            raise serializers.ValidationError('Image size cannot exceed 5MB.')
+        return value
 
 
 class DishCategorySerializer(serializers.ModelSerializer):
@@ -29,4 +42,4 @@ class DishCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Dish_Category
-        fields = ['id', 'url', 'name','description', 'created_by', 'dishes']
+        fields = ('id', 'url', 'name','description', 'created_by', 'dishes',)
