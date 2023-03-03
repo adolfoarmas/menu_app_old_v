@@ -28,12 +28,23 @@ const UserLogin = () => {
             if (data.error){
                 return setErrorText(data.error)
             }
+            console.log(data);
             window.localStorage.setItem('logedUserToken', data.key)
             setTokenValue(data.key)
             getUserData(username)
             .then(data => {
                 console.log(data)
-                window.localStorage.setItem('logedUserId', data[0]['id'])
+                let logedUserId = ""
+                for(let i = 0; i <= data.length; i++) {
+                    console.log(data[i])
+                    let ApiUsername = data[i]['username']
+                    console.log(ApiUsername)
+                    if(username.toLowerCase() ===  ApiUsername.toLowerCase()){
+                        logedUserId = data[i]['id']
+                        window.localStorage.setItem('logedUserId', logedUserId)
+                        break
+                    }
+                }
                 setUserLoggedData(data[0])
             })
         })

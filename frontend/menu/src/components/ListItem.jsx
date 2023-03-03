@@ -30,6 +30,8 @@ const ListItem = ( props ) => {
     },[])
 
     const onSubmit = (formData) => {
+
+        console.log(formData)
         
         let payload = new FormData()
         

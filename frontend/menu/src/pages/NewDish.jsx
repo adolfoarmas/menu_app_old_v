@@ -20,6 +20,15 @@ const NewDish = ({data={}, onSubmit}) => {
                     category: categories[0].id,
                   }));
             } 
+            
+            if (data.hasOwnProperty('name')){
+                console.log(data)
+                setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    id: data.id,
+                  }));
+            }
+             
         })
         
         setImagePreview(data.image)
@@ -98,10 +107,20 @@ const NewDish = ({data={}, onSubmit}) => {
                     </InputsDiv>
                     <ImageFormDiv>
                         <FieldNameLabel className="new-dish-form-form-picture">
-                            <p className="new-dish-form-form-picture-title">Picture:</p>
+                            Picture:
                         </FieldNameLabel>
-                        <input type="file" id="image" name="image" onChange={handleFileChange} />
-                        <img name="image" src={imagePreview} alt='dish selected file'/>
+                        {!formData.image ? 
+                            <>
+                                <label>Select a refecence image to your dish:</label>
+                                <ImageLabel htmlFor='image'>Upload</ImageLabel>
+                            </>
+                        : 
+                            <>
+                                <ImageLabel htmlFor='image'>Change</ImageLabel>
+                                <Image name="image" src={imagePreview} alt='dish selected file'/>
+                            </>}
+                        <ImageInput type="file" id="image" name="image" onChange={handleFileChange} />
+
                     </ImageFormDiv>
                 </FormDiv>
             </Form>
@@ -111,9 +130,48 @@ const NewDish = ({data={}, onSubmit}) => {
 
 export default NewDish;
 
+const Image = styled.img`
+    width: 20em;
+    height: 20em;;
+    padding: 5px 5px;
+    margin: 0;
+    border: 0 solid #ccc;
+    border-radius: 1em;
+    box-sizing: border-box;
+`
+
+const ImageLabel = styled.label`
+    align-self: center;
+    color: white;
+    background-color: #325891;
+    padding: 0.5em 1.3em;
+    margin: 1em 1em;
+    border-radius: 5px;
+    border: 1px black;
+    font-size: 1rem;
+    height: auto;
+    :hover {
+        background-color: #3865ad;
+        cursor: pointer;
+    }
+`
+
+const ImageInput = styled.input`
+    opacity: 0;
+    width: 0;
+`
+
 const ImageFormDiv = styled.div`
     display : flex;
     flex-direction: column;
+    button {
+        background-color: #7F9CCB;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 1px ridge black;
+        font-size: 0.8rem;
+        height: auto;
+    }
 
     
 `
@@ -165,7 +223,6 @@ const FormDiv = styled.div`
 `
 
 const Form = styled.form`
-
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -173,7 +230,6 @@ const Form = styled.form`
 
 
     @media only screen and (min-width: 768px) {
-
     .FormDiv {
       flex-direction: row;
     }

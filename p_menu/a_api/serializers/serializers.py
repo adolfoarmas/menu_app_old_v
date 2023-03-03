@@ -9,13 +9,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
     
     class Meta:
         model= get_user_model()
-        fields = ('email', 'username', 'name', 'is_active', 'is_staff' )
+        fields = ('id', 'email', 'username', 'name', 'is_active', 'is_staff' )
 
 
 class DishSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dish
-        fields = ['name', 'description', 'date', 'category', 'observation', 'image', 'created_by', 'price', 'currency']
+        fields = ('id', 'name', 'description', 'date', 'category', 'observation', 'image', 'created_by', 'price', 'currency',)
 
 
 class DishCategorySerializer(serializers.ModelSerializer):
@@ -29,4 +29,4 @@ class DishCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Dish_Category
-        fields = ['id', 'url', 'name','description', 'created_by', 'dishes']
+        fields = ('id', 'url', 'name','description', 'created_by', 'dishes',)
