@@ -1,47 +1,44 @@
-import styled from 'styled-components';   
-import React, {useState, useEffect} from "react";
+import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
 import getDishCategories from "../services/dishCategory/getDishCategories";
 
-const NewDish = ({data={}, onSubmit}) => {
+const NewDish = ({ data = {}, onSubmit }) => {
 
     const [formData, setFormData] = useState(data);
     const [categoriesList, setCategoriesList] = useState([])
     const [imagePreview, setImagePreview] = useState(null)
 
-    useEffect(()=> {
+    useEffect(() => {
         getDishCategories()
-        .then(categories => {
-            setCategoriesList(categories)
+            .then(categories => {
+                setCategoriesList(categories)
 
-            // set default values
-            if(!data.hasOwnProperty('category')){
-                setFormData((prevFormData) => ({
-                    ...prevFormData,
-                    category: categories[0].id,
-                  }));
-            } 
-            
-            if (data.hasOwnProperty('name')){
-                console.log(data)
-                setFormData((prevFormData) => ({
-                    ...prevFormData,
-                    id: data.id,
-                  }));
-            }
-             
-        })
-        
+                // set default values
+                if (!data.hasOwnProperty('category')) {
+                    setFormData((prevFormData) => ({
+                        ...prevFormData,
+                        category: categories[0].id,
+                    }));
+                }
+
+                if (data.hasOwnProperty('name')) {
+                    setFormData((prevFormData) => ({
+                        ...prevFormData,
+                        id: data.id,
+                    }));
+                }
+            })
+
         setImagePreview(data.image)
 
     }, []);
-    
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         onSubmit(formData);
     };
 
     const handleChange = (event) => {
-        console.log(formData.valueOf('name'))
         const { name, value } = event.target;
         setFormData((prevState) => ({
             ...prevState,
@@ -56,79 +53,97 @@ const NewDish = ({data={}, onSubmit}) => {
 
         const reader = new FileReader()
         reader.readAsDataURL(file)
-        reader.onloadend = () =>{
+        reader.onloadend = () => {
             setImagePreview(reader.result)
         }
     }
 
     return (
         <Form onSubmit={handleSubmit} >
-                <FormDiv>
-                    <InputsDiv>
-                        <h2>Add New Dish</h2>  
-                        <FieldNameLabel>
-                            <p>Name:</p>
-                        </FieldNameLabel>
-                            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
-                            {!formData.name ? <ErrorLabel>this field is required</ErrorLabel> : <ErrorLabel></ErrorLabel>}
-                        <FieldNameLabel>
-                            <p>Description:</p>
-                        </FieldNameLabel>
-                            <textarea className="App-text-form-description" id="description" name="description" value={formData.description} onChange={handleChange} required/>
-                            {!formData.description ? <ErrorLabel>this field is required</ErrorLabel> : <ErrorLabel></ErrorLabel>}
-                        <FieldNameLabel>
-                            <p>Category:</p>
-                        </FieldNameLabel>
-                            <select id="caregory" name="category" value={formData.category} onChange={handleChange} required>
-                                {categoriesList.map((cat, index) =>
-                                    <option key={index} name="category" value={Number(cat.id)}>{cat.name}</option>
-                                )}
-                            </select>
-                            {!formData.category ? <ErrorLabel>this field is required</ErrorLabel> : <ErrorLabel></ErrorLabel>}
-                        <FieldNameLabel>
-                            <p>Observation:</p>
-                        </FieldNameLabel>
-                            <textarea className="App-text-form-observation" id="observation" name="observation" value={formData.observation} onChange={handleChange}/>
-                        <div className="new-dish-form-form-price">
+            <FormDiv>
+                <InputsDiv>
+                    {data.name ? <h2>Edit Dish</h2> : <h2>Add New Dish</h2>}
+                    <FieldNameLabel>
+                        <p>Name:</p>
+                    </FieldNameLabel>
+                    <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
+                    {!formData.name ? <ErrorLabel>this field is required</ErrorLabel> : <ErrorLabel></ErrorLabel>}
+                    <FieldNameLabel>
+                        <p>Description:</p>
+                    </FieldNameLabel>
+                    <textarea className="App-text-form-description" id="description" name="description" value={formData.description} onChange={handleChange} required />
+                    {!formData.description ? <ErrorLabel>this field is required</ErrorLabel> : <ErrorLabel></ErrorLabel>}
+                    <FieldNameLabel>
+                        <p>Category:</p>
+                    </FieldNameLabel>
+                    <select id="caregory" name="category" value={formData.category} onChange={handleChange} required>
+                        {categoriesList.map((cat, index) =>
+                            <option key={index} name="category" value={Number(cat.id)}>{cat.name}</option>
+                        )}
+                    </select>
+                    {!formData.category ? <ErrorLabel>this field is required</ErrorLabel> : <ErrorLabel></ErrorLabel>}
+                    <FieldNameLabel>
+                        <p>Observation:</p>
+                    </FieldNameLabel>
+                    <textarea className="App-text-form-observation" id="observation" name="observation" value={formData.observation} onChange={handleChange} />
+                    <div className="new-dish-form-form-price">
                         <FieldNameLabel>
                             <p>Price:</p>
-                            <input className="new-dish-form-form-price-price" type="number" id="price" name="price" value={formData.price} onChange={handleChange} required/>
+                            <input className="new-dish-form-form-price-price" type="number" id="price" name="price" value={formData.price} onChange={handleChange} required />
                             {!formData.price ? <ErrorLabel>this field is required</ErrorLabel> : <ErrorLabel></ErrorLabel>}
                         </FieldNameLabel>
                         <FieldNameLabel>
                             <p>Currency:</p>
-                            <input className="new-dish-form-form-price-currency" type="text" id="currency" name="currency" value={formData.currency} onChange={handleChange} required/>
+                            <input className="new-dish-form-form-price-currency" type="text" id="currency" name="currency" value={formData.currency} onChange={handleChange} required />
                             {!formData.currency ? <ErrorLabel>this field is required</ErrorLabel> : <ErrorLabel></ErrorLabel>}
                         </FieldNameLabel>
-                        </div>
-                        <div>
-                            <button type="submit">{data ? 'Update' : 'Create'}</button>
-                        </div>
-                    </InputsDiv>
-                    <ImageFormDiv>
-                        <FieldNameLabel className="new-dish-form-form-picture">
-                            Picture:
-                        </FieldNameLabel>
-                        {!formData.image ? 
-                            <>
-                                <label>Select a refecence image to your dish:</label>
-                                <ImageLabel htmlFor='image'>Upload</ImageLabel>
-                            </>
-                        : 
-                            <>
-                                <ImageLabel htmlFor='image'>Change</ImageLabel>
-                                <Image name="image" src={imagePreview} alt='dish selected file'/>
-                            </>}
-                        <ImageInput type="file" id="image" name="image" onChange={handleFileChange} />
-
-                    </ImageFormDiv>
-                </FormDiv>
-            </Form>
-            
-)
+                    </div>
+                    <ButtonDiv>
+                        <button type="submit">{data.name ? 'Update' : 'Create'}</button>
+                    </ButtonDiv>
+                </InputsDiv>
+                <ImageFormDiv>
+                    <FieldNameLabel className="new-dish-form-form-picture">
+                        Picture:
+                    </FieldNameLabel>
+                    {!formData.image ?
+                        <>
+                            <label>Select a refecence image to your dish:</label>
+                            <ImageLabel htmlFor='image'>Upload</ImageLabel>
+                        </>
+                        :
+                        <>
+                            <Image name="image" src={imagePreview} alt='dish selected file' />
+                            <ImageLabel htmlFor='image'>Change</ImageLabel>
+                        </>}
+                    <ImageInput type="file" id="image" name="image" onChange={handleFileChange} />
+                </ImageFormDiv>
+            </FormDiv>
+        </Form>
+    )
 }
 
 export default NewDish;
+
+const ButtonDiv = styled.div`
+    button {
+        margin: 0;
+        align-self: center;
+        color: white;
+        background-color: #325891;
+        padding: 0.5em 1.3em;
+        margin: 1em 0em;
+        border-style: none;
+        border-radius: 0.3em;
+        border: none;
+        font-size: 1rem;
+        height: auto;
+        :hover {
+            background-color: #3865ad;
+            cursor: pointer;
+        }
+    }
+`
 
 const Image = styled.img`
     width: 20em;
@@ -146,7 +161,7 @@ const ImageLabel = styled.label`
     background-color: #325891;
     padding: 0.5em 1.3em;
     margin: 1em 1em;
-    border-radius: 5px;
+    border-radius: 0.3em;
     border: 1px black;
     font-size: 1rem;
     height: auto;
@@ -172,19 +187,16 @@ const ImageFormDiv = styled.div`
         font-size: 0.8rem;
         height: auto;
     }
-
-    
 `
 
 const FieldNameLabel = styled.label`
     display : flex;
     flex-direction: column;
+    height: auto;
     p {
         margin: 0;
     }
-
 `
-
 const ErrorLabel = styled.label`
     font-size: 0.8em;
     color: #ff0000a2;
@@ -202,10 +214,6 @@ const InputsDiv = styled.div`
         border: 0em solid #ccc;
         box-sizing: border-box;
     }
-
-    /* input, textarea, select:hover {
-        border: 1px solid #0099ff;
-    } */
 `
 
 const FormDiv = styled.div` 
@@ -225,7 +233,7 @@ const FormDiv = styled.div`
 const Form = styled.form`
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 1em;
     max-width: 80%;
 
 

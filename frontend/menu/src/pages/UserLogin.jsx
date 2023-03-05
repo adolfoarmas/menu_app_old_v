@@ -16,7 +16,6 @@ const UserLogin = () => {
     const [csfrTokenValue, setCsfrTokenValue] = csfrToken
     const [userLoggedIdValue, setUserLoggedData] = userLoggedId
     
-
     const handleSubmit = async e => {
         e.preventDefault();
 
@@ -48,31 +47,28 @@ const UserLogin = () => {
                 setUserLoggedData(data[0])
             })
         })
-
-
     }
 
     return (
-        <div className="login-form">
-            <form className="login-form-form" onSubmit={handleSubmit}>
-                <label>
-                    <h2>User Login</h2>
-                    <p>Username</p>
-                    <input type="text" onChange={e => setUserName(e.target.value)} />
-                </label>
-                <label>
-                    <p>Password</p>
-                    <input type="password"  onChange={e => setPassword(e.target.value)}/>
-                </label>
-                <p> { errorText }</p>
-                <div>
-                    <button type="submit">Login</button>
-                </div>
-            </form>
-            {tokenValue && <Navigate to="/" replace={true} />}
-        </div>
-        
-)
+            <div className="login-form">
+                <form className="login-form-form" onSubmit={handleSubmit}>
+                    <label>
+                        <h2>User Login</h2>
+                        <p>Username</p>
+                        <input type="text" onChange={e => setUserName(e.target.value)} />
+                    </label>
+                    <label>
+                        <p>Password</p>
+                        <input type="password"  onChange={e => setPassword(e.target.value)}/>
+                    </label>
+                    <p> { errorText }</p>
+                    <div>
+                        <button type="submit">Login</button>
+                    </div>
+                </form>
+                {tokenValue && <Navigate to="/" replace={true} />}
+            </div>       
+    )
 }
 
 export default UserLogin;

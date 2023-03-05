@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import React, {useEffect, useState, useContext} from "react";
 import ModalHook, {useModal} from '../hooks/modalHook';
 import NewDish from "../pages/NewDish";
@@ -19,10 +20,10 @@ const ListItem = ( props ) => {
 
     let [dish, setDish] = useState({})
 
-    const editDishCategoryHook = useModal('Dish Category')
+    const editDishHook = useModal('Dish')
 
     const editDishCategoryModal = () =>{
-        editDishCategoryHook.changeShow()
+        editDishHook.changeShow()
     }
 
     useEffect(()=>{
@@ -51,25 +52,23 @@ const ListItem = ( props ) => {
 
     }
 
-
     if (props.visible && dish){
         
         return (
             
-            <div className="dish-element">
-                <ModalHook modalHook={editDishCategoryHook} content={<NewDish data={ dish } onSubmit={ onSubmit } />} />
-
-                    <img src={dish.image} alt= {dish.name}  />
-                    <div className="dish-title-description">
+            <DishWrapper>
+                <ModalHook modalHook={editDishHook} content={<NewDish data={ dish } onSubmit={ onSubmit } />} />
+                    <Image src={dish.image} alt= {dish.name}  />
+                    <NameDescriptionWrapper className="dish-title-description">
                         <h3>{dish.name}</h3>
                         <p><em>{dish.description}</em></p>
-                    </div>
-                    <div className="dish-price">
+                    </NameDescriptionWrapper>
+                    <PriceCurrencyWrapper className="dish-price">
                         <p>{dish.currency}  {dish.price}</p>
-                    </div>
-                    <button onClick={() => showAdditional(dish)}>More Info</button>
-                    <button className="" hidden={!tokenValue} onClick={editDishCategoryModal}>edit</button>
-            </div>
+                    </PriceCurrencyWrapper>
+                        <EditButton hidden={!tokenValue} onClick={editDishCategoryModal}>edit</EditButton>
+                        <DeleteButton onClick={() => showAdditional(dish)}>More Info</DeleteButton>
+                </DishWrapper>
             
             // <button className="" hidden={!tokenValue} onClick={deleteDishCategoryModal}>delete</button>
         )
@@ -77,3 +76,70 @@ const ListItem = ( props ) => {
 }
 
 export default ListItem;
+
+const DishWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    p {
+        margin: 0;
+    }
+`
+const Image = styled.img`
+    height: 100%;
+    width: 15%;
+    padding: 0.5em;
+    border-radius: 3em;
+    box-sizing: border-box;
+    align-self: center;
+`
+const NameDescriptionWrapper = styled.div`
+    height: 100%;
+    width: 65%;
+    box-sizing: border-box;
+    align-self: center;
+`
+const PriceCurrencyWrapper = styled.div`
+    height: 100%;
+    width: 10%;
+    box-sizing: border-box;
+    align-self: center;
+`
+
+const EditButton = styled.button`
+    height: 100%;
+    width: 10%;
+    box-sizing: border-box;
+    align-self: center;
+    color: white;
+    background-color: #325891;
+    border-style: none;
+    border-radius: 0.3em;
+    border: none;
+    :hover {
+        background-color: #3865ad;
+        cursor: pointer;
+    }
+` 
+const DeleteButton = styled.button`
+    height: 100%;
+    width: 10%;
+    box-sizing: border-box;
+    align-self: center;
+    color: white;
+    background-color: #325891;
+    border-style: none;
+    border-radius: 0.3em;
+    border: none;
+    :hover {
+        background-color: #a24b4b;
+        cursor: pointer;
+    }
+` 
+
+
+
+
+
+
