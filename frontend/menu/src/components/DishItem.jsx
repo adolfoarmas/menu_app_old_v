@@ -28,6 +28,7 @@ const DishItem = (props) => {
     setDish(props.dish);
   }, []);
 
+  //TO REFACTOR: Unify with onSubmitNewDish in DishList.jsx page
   const onSubmit = (formData) => {
     let payload = new FormData();
 

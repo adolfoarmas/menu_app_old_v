@@ -37,6 +37,7 @@ const CategoryItem = ({ data }) => {
     getDishesService(category);
   }, [dishCategories]);
 
+  //TO REFACTOR: Unify with onSubmitNewDishCategory in DishList.jsx page
   const onSubmit = (formData) => {
     console.log(formData)
     let payload = new FormData();
