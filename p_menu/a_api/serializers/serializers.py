@@ -32,11 +32,11 @@ class DishSerializer(serializers.ModelSerializer):
 
 
 class DishCategorySerializer(serializers.ModelSerializer):
-    created_by = serializers.HyperlinkedRelatedField(
-        many=False,
-        view_name='user-detail',
-        queryset=get_user_model().objects.all() #provide queryset argument when we need the hyperlinkedrelatedfield to be writable
-        )
+    # created_by = serializers.HyperlinkedRelatedField(
+    #     many=False,
+    #     view_name='user-detail',
+    #     queryset=get_user_model().objects.all() #provide queryset argument when we need the hyperlinkedrelatedfield to be writable
+    #     )
 
     dishes = serializers.HyperlinkedRelatedField(many=True, view_name='dish-detail', read_only=True)
 

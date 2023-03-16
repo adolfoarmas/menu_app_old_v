@@ -8,7 +8,7 @@ const handleErrors = (response) => {
 }
 
 export default async function createDish(payload, token, csfrToken,){
-    console.log(payload, token, csfrToken)
+    // console.log(payload, token, csfrToken)
     return fetch(DISHES_END_POINT, {
         method: 'POST',
         headers: {
@@ -20,8 +20,7 @@ export default async function createDish(payload, token, csfrToken,){
     })
     .then(handleErrors)
     .then(data => {
-        console.log(data)
-        data.json()
+        return data.json()
     })
 
 }
