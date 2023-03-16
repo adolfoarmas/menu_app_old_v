@@ -28,6 +28,7 @@ const DishList = () => {
 
   useEffect(() => {}, [dishCategories]);
 
+  //TO REFACTOR: Unify with onSubmit in DishItem.jsx component
   const onSubmitNewDish = (formData) => {
     let payload = new FormData();
     payload.append("name", formData.name);
@@ -55,7 +56,7 @@ const DishList = () => {
       setDishCategories(updatedCategories);
     });
   };
-
+ //TO REFACTOR: Unify with onSubmit in CategoryItem.jsx component
   const onSubmitNewDishCategory = (formData) => {
     console.log(formData)
     let payload = new FormData();
