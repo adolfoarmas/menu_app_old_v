@@ -5,6 +5,7 @@ function useModal ( textTitle ) {
     
     const [show, setShow] = useState(false)
     const [title, setTitle] = useState('Modal')
+    // const [isModalOpen, setIsModalOpen] = useState(false)
 
     useEffect(()=>{
         setTitle(textTitle)
@@ -18,7 +19,7 @@ function useModal ( textTitle ) {
     return {
         changeShow, 
         show, 
-        title, 
+        title,
     }
 }
 
@@ -32,14 +33,13 @@ function ModalHook ( {modalHook, content} ) {
                 <ModalArea onClick={(e) => e.stopPropagation() }>
                     <ModalHeader>
                         <Title> {modalHook.title} </Title>
-                        <BtnClose onClick={modalHook.changeShow }> Close </BtnClose>
+                        <BtnClose onClick={modalHook.changeShow}> Close </BtnClose>
                         <br/> 
                     </ModalHeader>
                     {content}
                 </ModalArea>
             </ModalBackArea>  
     : null
-
 }
 
 export default ModalHook 

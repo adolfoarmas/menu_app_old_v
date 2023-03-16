@@ -1,16 +1,29 @@
 import React, { createContext, useEffect, useState } from "react";
+// import getDishCategories from "../services/dishCategory/getDishCategories";
+import {DISH_CATEGORIES} from "../services/settings"
+import { fetchData } from "../services/fetchData";
 
 const Context = createContext({})
+const CategoriesContext = createContext({})
+const UpdateViewContext = createContext({})
+
+
+// const apiData = fetchData(DISH_CATEGORIES);
+
+const fetchCategories = fetchData(DISH_CATEGORIES) 
 
 const UserContextProvider = ({ children }) => {
 
-    const [userLogged, setUserLogged] = useState(null)
-    const [userLoggedId, setUserLoggedId] = useState(null)
-    const [csrfToken, setCsrfToken] = useState(null)
-    
+    const apiData = fetchCategories;
+    const dishCategoriesApi = apiData.read();
 
-    useEffect(() => {
-        
+    const [userLogged, setUserLogged] = useState(null)
+    const [csrfToken, setCsrfToken] = useState(null)
+    const [userLoggedId, setUserLoggedId] = useState(null)
+    const [updateView, setUpdateView] = useState(1)
+    const [dishCategories, setDishCategories] = useState(dishCategoriesApi)
+    
+    useEffect(() => {        
         const getUserLoggedTokenValue = () => {
           return window.localStorage.getItem('logedUserToken')
         }
@@ -27,22 +40,31 @@ const UserContextProvider = ({ children }) => {
           return window.localStorage.getItem('logedUserId')
         }
 
-        if(getUserLoggedTokenValue){
+        if(getUserLoggedTokenValue) {
           setUserLogged(getUserLoggedTokenValue)
           setCsrfToken(getCsrftokenValue)
           setUserLoggedId(getUserLoggedId)
           //console.log('token', userLogged, 'csfrtoken', csrfToken)
         }
-      });
+        
+        const apiData = fetchCategories;
+        const dishCategoriesApi = apiData.read();
+        setDishCategories(dishCategoriesApi)
+
+      }, [updateView]);
 
     return (
     
       <Context.Provider value={{'token':[userLogged, setUserLogged], 'csfrToken': [csrfToken, setCsrfToken], 'userLoggedId': [userLoggedId, setUserLoggedId]}}>
-        {/*user state sent as Context value parameter*/}
-        {children}
+        <CategoriesContext.Provider value={[dishCategories, setDishCategories]}>
+          <UpdateViewContext.Provider value={[updateView, setUpdateView]}>
+            {/*user state sent as Context value parameter*/}
+            {children}
+          </UpdateViewContext.Provider>
+        </CategoriesContext.Provider>
       </Context.Provider>
       
       )
 }
 
-export { Context, UserContextProvider }
+export { Context, CategoriesContext, UpdateViewContext, UserContextProvider }

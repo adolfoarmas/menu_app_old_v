@@ -32,7 +32,7 @@ const App = () =>
 export default App;
 
 const AppWrapper = styled.div`
-  width: 60%;
+  width: 50%;
   align-items: center;
   //display: flex;
   //flex-flow: column;

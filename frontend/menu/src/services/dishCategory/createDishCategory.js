@@ -12,17 +12,14 @@ export default async function createDishCategory(payload, token, csfrToken,){
     return fetch(DISH_CATEGORIES_END_POINT, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            // 'Content-Type': 'application/json',
             'Authorization': `Token` + token, 
             'X-CSRFToken':  csfrToken
         },
-        body: JSON.stringify(payload)
+        body: payload
     })
     .then(handleErrors)
     .then(data => {
-        if(!data.error){
             return data.json()
-        }
-        return data
-        })
+    })
 }

@@ -8,7 +8,7 @@ const handleErrors = (response) => {
     return response
 }
 
-export default async function createDishCategory(dishCategoryId, token, csfrToken,){
+export default async function deleteDishCategory(dishCategoryId, token, csfrToken,){
     return fetch(DISH_CATEGORIES_END_POINT + dishCategoryId + '/', {
         method: 'DELETE',
         headers: {
