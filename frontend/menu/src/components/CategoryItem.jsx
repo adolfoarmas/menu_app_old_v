@@ -5,33 +5,72 @@ import DishCategoryForm from "../pages/forms/DishCategoryForm";
 import DishItem from "./DishItem";
 import ModalHook, { useModal } from "../hooks/modalHook";
 import deleteDishCategory from "../services/dishCategory/deleteDishCategory.js";
-import { CategoriesContext, Context } from "../context/userContext";
+import { CategoriesContext, Context, ToastVisibilityContext, DishesContext } from "../context/userContext";
 import editDishCategory from "../services/dishCategory/editDishCategory";
+import ConfirmationYesNo from "../pages/popups/ConfirmationYesNo";
 
 const CategoryItem = ({ data }) => {
   const { token, csfrToken } = useContext(Context);
   const [dishCategories, setDishCategories] = useContext(CategoriesContext);
+  const [dishes, setDishes] = useState([]);
+  const [toastVisible, setToastVisible, toastMessage, setToastMessage, toastType, setToastType] = useContext(ToastVisibilityContext)
 
   const [tokenValue] = token;
   const [csfrTokenValue] = csfrToken;
 
   const [dishesVisible, setDishesVisible] = useState(false);
-  const [dishes, setDishes] = useState([]);
+  // const [dishes, setDishes] = useState([]);
   const [category, setCategory] = useState(data)
+  const [confirmationModalMessage, setConfirmationMessage] = useState('')
 
-  const editDishCategoryHook = useModal("Dish Category");
+  const editDishCategoryModal = useModal("Dish Category");
+  const confirmationModal = useModal("Confirm delete category");
 
   const onEditDishCategoryModal = () => {
-    editDishCategoryHook.changeShow();
+    editDishCategoryModal.changeShow();
   };
-
+  
   const onDeleteDishCategory = () => {
-    deleteDishCategory(category.id, tokenValue, csfrTokenValue);
+    setConfirmationMessage('Are you sure you want to delete the category?')
+    confirmationModal.changeShow();
+  } 
+
+  const onConfirmation = (confirmation) => {
+    confirmation ? onConfirmateDeleteDishCategory() : onDeleteDishCategory();
+  }
+
+
+  const onConfirmateDeleteDishCategory = () => {
+    deleteDishCategory(category.id, tokenValue, csfrTokenValue)
+    .then(data => {
+      // console.log(data)
+      if(data.Error){
+        throw data
+      }
+      return data
+    })
+    .then(() => {
+      const nameDeleted = category.name
+      const indexToEdit = dishCategories.indexOf(category)
+      dishCategories.splice(indexToEdit, 1) //modifies existing array
+      setDishCategories(dishCategories)
+      displayToast('Category "' + String(nameDeleted) + '" has been deleted!', 'success')
+    })
+    .catch(data => {
+      displayToast(data, 'error')
+    })
   };
 
   const getDishesService = async (cat) => {
-    return await getDishes(cat).then((data) => setDishes(data));
+    const apiDishes = await getDishes(cat)
+    await setDishes(apiDishes)
   };
+
+  const displayToast = (message, type) => {
+    setToastMessage(message)
+    setToastType(type)
+    setToastVisible(true)
+  }
 
   useEffect(() => {
     getDishesService(category);
@@ -39,7 +78,6 @@ const CategoryItem = ({ data }) => {
 
   //TO REFACTOR: Unify with onSubmitNewDishCategory in DishList.jsx page
   const onSubmit = (formData) => {
-    console.log(formData)
     let payload = new FormData();
     payload.append("name", formData.name);
     payload.append("description", formData.description);
@@ -47,13 +85,25 @@ const CategoryItem = ({ data }) => {
     );
 
     editDishCategory(payload, formData.id, tokenValue, csfrTokenValue)
+    .then(data => {
+      // console.log(data)
+      if(data.Error){
+        throw data
+      }
+      return data
+    })
     .then((data) => {
       const editedCategory = data;
       setCategory(editedCategory)
       const indexToEdit = dishCategories.indexOf(category)
       dishCategories.splice(indexToEdit, 1, editedCategory) //modifies existing array
       setDishCategories(dishCategories)
-    });
+      onEditDishCategoryModal()
+      displayToast('Category "' + String(data.name) + '" has been edited!', 'success')
+    })
+    .catch(data => {
+      displayToast(data, 'error')
+    })
   };
 
   return (
@@ -79,9 +129,14 @@ const CategoryItem = ({ data }) => {
       </CategoryWrapper>
       <DishWrappre>
         <ModalHook
-          modalHook={editDishCategoryHook}
+          modalHook={editDishCategoryModal}
           content={<DishCategoryForm data={category} onSubmit={onSubmit} />}
         />
+        <ModalHook
+          modalHook={confirmationModal}
+          content={<ConfirmationYesNo message={confirmationModalMessage} onConfirmation={onConfirmation} />}
+        />
+
         {dishes &&
           dishes.map((dish, id) => (
             <DishItem key={id} visible={dishesVisible} dish={dish} />

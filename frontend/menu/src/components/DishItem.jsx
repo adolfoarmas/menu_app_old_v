@@ -2,31 +2,77 @@ import styled from "styled-components";
 import React, { useEffect, useState, useContext } from "react";
 import ModalHook, { useModal } from "../hooks/modalHook";
 import NewDish from "../pages/forms/DishForm";
-import { Context } from "../context/userContext";
+import { CategoriesContext, Context, DishesContext, ToastVisibilityContext } from "../context/userContext";
 import editDish from "../services/dish/editDish";
 import deleteDish from "../services/dish/deleteDish.js";
+import ConfirmationYesNo from "../pages/popups/ConfirmationYesNo";
 
 const DishItem = (props) => {
+
   const { token, csfrToken } = useContext(Context);
+  const [toastVisible, setToastVisible, toastMessage, setToastMessage, toastType, setToastType] = useContext(ToastVisibilityContext)
+  const [dishCategories, setDishCategories] = useContext(CategoriesContext)
+
+  const [dishes, setDishes] = useContext(DishesContext);
 
   const [tokenValue] = token;
   const [csfrTokenValue] = csfrToken;
 
   let [dish, setDish] = useState({});
+  const [confirmationModalMessage, setConfirmationMessage] = useState('')
 
   const editDishHook = useModal("Dish");
+  const confirmationModal = useModal("Confirm delete dish");
 
-  const editDishCategoryModal = () => {
+  const onConfirmation = (confirmation) => {
+    confirmation ? onConfirmateDeleteDish() : onDeleteDish();
+  }
+  
+  const onDeleteDish = () => {
+    confirmationModal.changeShow();
+  } 
+
+  const editDishModal = () => {
     editDishHook.changeShow();
   };
 
-  const onDeleteDish = () => {
-    deleteDish(dish.id, tokenValue, csfrTokenValue);
+  const onConfirmateDeleteDish = () => {
+    deleteDish(dish.id, tokenValue, csfrTokenValue)
+    .then(data => {
+      // console.log(data)
+      if(data.Error){
+        throw data
+      }
+      return data
+    })
+    .then(() => {
+      const nameDeleted = dish.name
+      const categorySelected = dishCategories.find(obj => obj.id === dish.category)
+      const dishesOfCategorySelected = categorySelected['dishes']
+      const indexToEdit = dishesOfCategorySelected.indexOf(dish)
+      categorySelected['dishes'].splice(indexToEdit, 1) //modifies existing array
+      console.log("dishCategories", dishCategories)
+      // setDishCategories(dishCategories)
+      setDish(null)
+      displayToast('Category "' + String(nameDeleted) + '" has been deleted!', 'success')
+      onDeleteDish()
+
+    })
+    .catch(data => {
+      displayToast(data, 'error')
+    })
   };
+
+  const displayToast = (message, type) => {
+    setToastMessage(message)
+    setToastType(type)
+    setToastVisible(true)
+  }
 
   useEffect(() => {
     setDish(props.dish);
-  }, []);
+    setConfirmationMessage('Are you sure you want to delete the category?')
+  }, [dishCategories]);
 
   //TO REFACTOR: Unify with onSubmitNewDish in DishList.jsx page
   const onSubmit = (formData) => {
@@ -46,9 +92,22 @@ const DishItem = (props) => {
       JSON.parse(window.localStorage.getItem("logedUserId"))
     );
 
-    editDish(payload, formData.id, tokenValue, csfrTokenValue).then(() => {
+    editDish(payload, formData.id, tokenValue, csfrTokenValue)
+    .then(data => {
+      // console.log(data)
+      if(data.Error){
+        throw data
+      }
+      return data
+    })
+    .then((data) => {
       setDish(formData);
-    });
+      editDishModal()
+      displayToast('Dish "' + String(data.name) + '" has been edited!', 'success')
+    })
+    .catch(data => {
+      displayToast(data, 'error')
+    })
   };
 
   if (props.visible && dish) {
@@ -57,6 +116,10 @@ const DishItem = (props) => {
         <ModalHook
           modalHook={editDishHook}
           content={<NewDish data={dish} onSubmit={onSubmit} />}
+        />
+        <ModalHook
+          modalHook={confirmationModal}
+          content={<ConfirmationYesNo message={confirmationModalMessage} onConfirmation={onConfirmation} />}
         />
         <Image src={dish.image} alt={dish.name} />
         <NameDescriptionWrapper>
@@ -70,7 +133,7 @@ const DishItem = (props) => {
             {dish.currency} {dish.price}
           </p>
         </PriceCurrencyWrapper>
-        <EditButton hidden={!tokenValue} onClick={editDishCategoryModal}>
+        <EditButton hidden={!tokenValue} onClick={editDishModal}>
           Edit
         </EditButton>
         <DeleteButton hidden={!tokenValue} onClick={onDeleteDish}>

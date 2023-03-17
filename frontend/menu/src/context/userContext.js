@@ -6,6 +6,8 @@ import { fetchData } from "../services/fetchData";
 const Context = createContext({})
 const CategoriesContext = createContext({})
 const UpdateViewContext = createContext({})
+const ToastVisibilityContext = createContext({})
+const DishesContext = createContext({})
 
 
 // const apiData = fetchData(DISH_CATEGORIES);
@@ -22,6 +24,10 @@ const UserContextProvider = ({ children }) => {
     const [userLoggedId, setUserLoggedId] = useState(null)
     const [updateView, setUpdateView] = useState(1)
     const [dishCategories, setDishCategories] = useState(dishCategoriesApi)
+    const [dishes, setDishes] = useState([])
+    const [toastVisible, setToastVisible] = useState(false);
+    const [toastMessage, setToastMessage] = useState('')
+    const [toastType, setToastType] = useState('')
     
     useEffect(() => {        
         const getUserLoggedTokenValue = () => {
@@ -58,8 +64,12 @@ const UserContextProvider = ({ children }) => {
       <Context.Provider value={{'token':[userLogged, setUserLogged], 'csfrToken': [csrfToken, setCsrfToken], 'userLoggedId': [userLoggedId, setUserLoggedId]}}>
         <CategoriesContext.Provider value={[dishCategories, setDishCategories]}>
           <UpdateViewContext.Provider value={[updateView, setUpdateView]}>
+            <ToastVisibilityContext.Provider value={[toastVisible, setToastVisible, toastMessage, setToastMessage, toastType, setToastType]}>
+                <DishesContext.Provider value={[dishes, setDishes]}>
             {/*user state sent as Context value parameter*/}
             {children}
+                </DishesContext.Provider>
+            </ToastVisibilityContext.Provider>
           </UpdateViewContext.Provider>
         </CategoriesContext.Provider>
       </Context.Provider>
@@ -67,4 +77,4 @@ const UserContextProvider = ({ children }) => {
       )
 }
 
-export { Context, CategoriesContext, UpdateViewContext, UserContextProvider }
+export { Context, CategoriesContext, UpdateViewContext, ToastVisibilityContext, DishesContext, UserContextProvider }

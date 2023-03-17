@@ -9,8 +9,7 @@ const handleErrors = (response) => {
 }
 
 export default async function getDish(category){
-    // console.log(category)
     const respuesta =  await fetch(DISHES_END_POINT + "?category=" + String(category.id))
     const json = await respuesta.json()
-    return await json
+    return json;
 }

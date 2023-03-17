@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import React, { useState, useContext } from "react";
-import createDishCategory from "../../services/dishCategory/createDishCategory.js";
-import editDishCategory from "../../services/dishCategory/editDishCategory.js";
+
 import { Context } from "../../context/userContext";
 import { useEffect } from "react";
-import { USERS_END_POINT } from "../../services/settings";
 
 const NewDishCategory = ({data={}, onSubmit}) => {
+  console.log('data', data)
   const { token, csfrToken, userLoggedId } = useContext(Context);
   const [tokenValue] = token;
   const [csfrTokenValue] = csfrToken;
@@ -48,7 +47,7 @@ const NewDishCategory = ({data={}, onSubmit}) => {
   return (
     <FormDiv >
       <Form onSubmit={handleSubmit}>
-        {data.category ? (
+        {data.name ? (
           <h2>Edit Dish Category</h2>
         ) : (
           <h2>Add New Dish Category</h2>
@@ -59,6 +58,7 @@ const NewDishCategory = ({data={}, onSubmit}) => {
             type="text"
             id="name"
             name="name"
+            required
             value={formData.name}
             onChange={handleChange}
           />
@@ -69,17 +69,14 @@ const NewDishCategory = ({data={}, onSubmit}) => {
             id="description"
             name="description"
             maxLength={200}
+            required
             value={formData.description}
             onChange={handleChange}
           />
         </FieldNameLabel>
         <p> {errorText}</p>
         <ButtonDiv>
-          {data.category ? (
-            <button type="submit">Update</button>
-          ) : (
-            <button type="submit">Create</button>
-          )}
+            <button type="submit">{data.name? 'Edit' : 'Create'}</button>
         </ButtonDiv>
       </Form>
     </FormDiv>

@@ -4,13 +4,16 @@ import CategoryItem from "../components/CategoryItem";
 import NewDish from "./forms/DishForm";
 import NewDishCategory from "./forms/DishCategoryForm";
 import ModalHook, { useModal } from "../hooks/modalHook";
-import { CategoriesContext, Context } from "../context/userContext";
+import { CategoriesContext, Context, ToastVisibilityContext } from "../context/userContext";
 import createDish from "../services/dish/createDish";
 import createDishCategory from "../services/dishCategory/createDishCategory";
+import ToastMessage from "../components/ToastMessage";
 
 const DishList = () => {
   const { token, csfrToken } = useContext(Context);
   const [dishCategories, setDishCategories] = useContext(CategoriesContext);
+  // const {toastVisible, setToastVisible} = useContext(ToastVisibilityContext)
+  const [toastVisible, setToastVisible, toastMessage, setToastMessage, toastType, setToastType] = useContext(ToastVisibilityContext)
 
   const [tokenValue] = token;
   const [csfrTokenValue] = csfrToken;
@@ -25,6 +28,12 @@ const DishList = () => {
   const newDishCategoryModal = () => {
     newDishCategoryHook.changeShow();
   };
+
+  const displayToast = (message, type) => {
+    setToastMessage(message)
+    setToastType(type)
+    setToastVisible(true)
+  }
 
   useEffect(() => {}, [dishCategories]);
 
@@ -43,7 +52,15 @@ const DishList = () => {
       JSON.parse(window.localStorage.getItem("logedUserId"))
     );
 
-    createDish(payload, tokenValue, csfrTokenValue).then((data) => {
+    createDish(payload, tokenValue, csfrTokenValue)
+    .then(data => {
+      // console.log(data)
+      if(data.Error){
+        throw data
+      }
+      return data
+    })
+    .then((data) => {
       const categoryId = data.category;
       const updatedCategories = dishCategories.map((category) =>
         category.id === categoryId ?
@@ -54,25 +71,53 @@ const DishList = () => {
           : category
       );
       setDishCategories(updatedCategories);
-    });
+      newDishModal()
+      displayToast('Dish "' + String(data.name) + '" has been created!', 'success')
+    })
+    .catch(data => {
+      displayToast(data, 'error')
+    })
   };
+
  //TO REFACTOR: Unify with onSubmit in CategoryItem.jsx component
   const onSubmitNewDishCategory = (formData) => {
-    console.log(formData)
     let payload = new FormData();
     payload.append("name", formData.name);
     payload.append("description", formData.description);
     payload.append("created_by", JSON.parse(window.localStorage.getItem("logedUserId"))
     );
-    createDishCategory(payload, tokenValue, csfrTokenValue).then((data) => {
-      console.log(data)
+    createDishCategory(payload, tokenValue, csfrTokenValue)
+    .then(data => {
+      // console.log(data)
+      if(data.Error){
+        throw data
+      }
+      return data
+    })
+    .then((data) => {
+      // console.log(data)
       const newCategory = [data];
       setDishCategories([...dishCategories, ...newCategory]);
-    });
+      newDishCategoryModal()
+      displayToast('Category "' + String(data.name) + '" has been created!', 'success')
+    })
+    .catch(data => {
+      displayToast(data, 'error')
+    })
   };
 
   return (
     <ContentWrapper>
+      <div>
+      {/* <button onClick={handleClick}>Show Toast</button> */}
+      {toastVisible && (
+        <ToastMessage
+          message={toastMessage}
+          type={toastType}
+          duration={3000}
+        />
+      )}
+    </div>
       <ToolBarWrapper>
         <ModalHook
           modalHook={newDishHook}

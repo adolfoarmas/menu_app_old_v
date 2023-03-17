@@ -1,17 +1,18 @@
 import styled from 'styled-components';
-import React from "react";
+import React, {useState} from "react";
 import DishList from "./pages/DishList";
 import UserLogin from "./pages/UserLogin";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from "./components/Header"
-import { UserContextProvider } from './context/userContext';
+import { UserContextProvider, ToastVisibilityContext } from './context/userContext';
+import ToastMessage from './components/ToastMessage';
+import { useContext } from 'react';
 // import NewDish from "./pages/NewDish";
 // import NewDishCategory from "./pages/NewDishCategory"
 
 //import './App.css';
 
-const App = () => 
-    
+const App = () =>    
 { 
   return (<AppWrapper>
     <UserContextProvider>
