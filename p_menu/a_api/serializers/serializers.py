@@ -37,9 +37,8 @@ class DishCategorySerializer(serializers.ModelSerializer):
     #     view_name='user-detail',
     #     queryset=get_user_model().objects.all() #provide queryset argument when we need the hyperlinkedrelatedfield to be writable
     #     )
-
-    dishes = serializers.HyperlinkedRelatedField(many=True, view_name='dish-detail', read_only=True)
-
+    # dishes = serializers.HyperlinkedRelatedField(many=True, view_name='dish-detail', read_only=True)
+    dishes = DishSerializer(many=True, read_only=True)
     class Meta:
         model = Dish_Category
         fields = ('id', 'url', 'name','description', 'created_by', 'dishes',)
