@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, { useState, useEffect, useContext } from "react";
 import { CategoriesContext } from "../../context/userContext";
 
-const NewDish = ({ data = {}, onSubmit }) => {
+const DishForm = ({ data = {}, onSubmit }) => {
   const [dishCategories] = useContext(CategoriesContext);
 
   const [formData, setFormData] = useState(data);
@@ -189,7 +189,7 @@ const NewDish = ({ data = {}, onSubmit }) => {
   );
 };
 
-export default NewDish;
+export default DishForm;
 
 const ButtonDiv = styled.div`
   button {

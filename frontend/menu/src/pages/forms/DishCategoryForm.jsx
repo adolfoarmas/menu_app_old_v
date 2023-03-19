@@ -1,15 +1,13 @@
 import styled from "styled-components";
-import React, { useState, useContext } from "react";
-
-import { Context } from "../../context/userContext";
+import React, { useState, } from "react";
 import { useEffect } from "react";
 
-const NewDishCategory = ({data={}, onSubmit}) => {
-  console.log('data', data)
-  const { token, csfrToken, userLoggedId } = useContext(Context);
-  const [tokenValue] = token;
-  const [csfrTokenValue] = csfrToken;
-  const [userLoggedIdValue] = userLoggedId;
+const DishCategoryForm = ({data={}, onSubmit}) => {
+  // console.log('data', data)
+  // const { token, csfrToken, userLoggedId } = useContext(Context);
+  // const [tokenValue] = token;
+  // const [csfrTokenValue] = csfrToken;
+  // const [userLoggedIdValue] = userLoggedId;
 
   const [formData, setFormData] = useState(data);
   const [errorText, setErrorText] = useState();
@@ -83,7 +81,7 @@ const NewDishCategory = ({data={}, onSubmit}) => {
   );
 };
 
-export default NewDishCategory;
+export default DishCategoryForm;
 
 const ButtonDiv = styled.div`
   button {

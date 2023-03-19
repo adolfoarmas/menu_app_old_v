@@ -4,21 +4,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { IndexWrapper } from './styles/css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const AppWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  background-color: #606060;
-  height: inherit;
 
-`
 root.render(
   <React.StrictMode>
-    <AppWrapper>
+    <IndexWrapper>
       <App/>
-    </AppWrapper>
+    </IndexWrapper>
   </React.StrictMode>
 );
 

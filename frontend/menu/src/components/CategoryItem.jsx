@@ -8,6 +8,7 @@ import deleteDishCategory from "../services/dishCategory/deleteDishCategory.js";
 import { CategoriesContext, Context, ToastVisibilityContext, DishesContext } from "../context/userContext";
 import editDishCategory from "../services/dishCategory/editDishCategory";
 import ConfirmationYesNo from "../pages/popups/ConfirmationYesNo";
+import { ButtonDeleteCategory, ButtonEditCategory, CategoryButton, CategoryWrapper, DishListWrapper, DishWrapper, } from "../styles/css";
 
 const CategoryItem = ({ data }) => {
   const { token, csfrToken } = useContext(Context);
@@ -63,7 +64,7 @@ const CategoryItem = ({ data }) => {
 
   const getDishesService = async (cat) => {
     const apiDishes = await getDishes(cat)
-    await setDishes(apiDishes)
+    setDishes(apiDishes)
   };
 
   const displayToast = (message, type) => {
@@ -114,20 +115,21 @@ const CategoryItem = ({ data }) => {
         >
           {category.name}
         </CategoryButton>
-        <EditButton
+        <ButtonEditCategory
           hidden={!tokenValue}
           onClick={onEditDishCategoryModal}
         >
           Edit
-        </EditButton>
-        <DeleteButton
+        </ButtonEditCategory>
+        <ButtonDeleteCategory
           hidden={!tokenValue}
           onClick={onDeleteDishCategory}
         >
           Delete
-        </DeleteButton>
+        </ButtonDeleteCategory>
       </CategoryWrapper>
-      <DishWrappre>
+
+      <DishListWrapper>
         <ModalHook
           modalHook={editDishCategoryModal}
           content={<DishCategoryForm data={category} onSubmit={onSubmit} />}
@@ -141,74 +143,9 @@ const CategoryItem = ({ data }) => {
           dishes.map((dish, id) => (
             <DishItem key={id} visible={dishesVisible} dish={dish} />
           ))}
-      </DishWrappre>
+      </DishListWrapper>
     </>
   );
 };
 
 export default CategoryItem;
-
-let DishWrappre = styled.div``;
-let CategoryWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  width: 100%;
-`;
-let CategoryButton = styled.button`
-  height: 100%;
-  width: 80%;
-  box-sizing: border-box;
-  align-self: center;
-  color: white;
-  background-color: #325891;
-  border-style: none;
-  flex-grow: 0;
-  /* padding: 0 1.3em;
-    margin: 1em 0em; */
-  /* border-radius: 0.3em; */
-  border: none;
-  /* font-size: 1rem; */
-  :hover {
-    background-color: #3865ad;
-    cursor: pointer;
-  }
-`;
-let EditButton = styled.button`
-  height: 100%;
-  width: 10%;
-  box-sizing: border-box;
-  align-self: center;
-  color: white;
-  background-color: #325891;
-  border-style: none;
-  flex-grow: 0;
-  /* padding: 0 1.3em;
-    margin: 1em 0em; */
-  /* border-radius: 0.3em; */
-  border: none;
-  /* font-size: 1rem; */
-  :hover {
-    background-color: #3865ad;
-    cursor: pointer;
-  }
-`;
-let DeleteButton = styled.button`
-  height: 100%;
-  width: 10%;
-  box-sizing: border-box;
-  align-self: center;
-  color: white;
-  background-color: #325891;
-  border-style: none;
-  flex-grow: 0;
-  /* padding: 0.5em 0.3em;
-    margin: 1em 0em; */
-  /* border-radius: 0.3em; */
-  border-style: 0.5em solid;
-  /* font-size: 1rem; */
-  :hover {
-    background-color: #a24b4b;
-    cursor: pointer;
-  }
-`;
