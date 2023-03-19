@@ -6,6 +6,7 @@ import { CategoriesContext, Context, DishesContext, ToastVisibilityContext } fro
 import editDish from "../services/dish/editDish";
 import deleteDish from "../services/dish/deleteDish.js";
 import ConfirmationYesNo from "../pages/popups/ConfirmationYesNo";
+import {DishWrapper, DishImage, DishDescriptionWrapper, DishPriceCurrencyWrapper, DishEditButton, DishDeleteButton} from "../styles/css";
 
 const DishItem = (props) => {
 
@@ -52,7 +53,6 @@ const DishItem = (props) => {
       const indexToEdit = dishesOfCategorySelected.indexOf(dish)
       categorySelected['dishes'].splice(indexToEdit, 1) //modifies existing array
       console.log("dishCategories", dishCategories)
-      // setDishCategories(dishCategories)
       setDish(null)
       displayToast('Category "' + String(nameDeleted) + '" has been deleted!', 'success')
       onDeleteDish()
@@ -121,88 +121,27 @@ const DishItem = (props) => {
           modalHook={confirmationModal}
           content={<ConfirmationYesNo message={confirmationModalMessage} onConfirmation={onConfirmation} />}
         />
-        <Image src={dish.image} alt={dish.name} />
-        <NameDescriptionWrapper>
+        <DishImage src={dish.image} alt={dish.name} />
+        <DishDescriptionWrapper>
           <h3>{dish.name}</h3>
           <p>
             <em>{dish.description}</em>
           </p>
-        </NameDescriptionWrapper>
-        <PriceCurrencyWrapper>
+        </DishDescriptionWrapper>
+        <DishPriceCurrencyWrapper>
           <p>
             {dish.currency} {dish.price}
           </p>
-        </PriceCurrencyWrapper>
-        <EditButton hidden={!tokenValue} onClick={editDishModal}>
+        </DishPriceCurrencyWrapper>
+        <DishEditButton hidden={!tokenValue} onClick={editDishModal}>
           Edit
-        </EditButton>
-        <DeleteButton hidden={!tokenValue} onClick={onDeleteDish}>
+        </DishEditButton>
+        <DishDeleteButton hidden={!tokenValue} onClick={onDeleteDish}>
           Delete
-        </DeleteButton>
+        </DishDeleteButton>
       </DishWrapper>
     );
   }
 };
 
 export default DishItem;
-
-const DishWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  width: 100%;
-  p {
-    margin: 0;
-  }
-`;
-const Image = styled.img`
-  height: 100%;
-  width: 15%;
-  padding: 0.5em;
-  border-radius: 3em;
-  box-sizing: border-box;
-  align-self: center;
-`;
-const NameDescriptionWrapper = styled.div`
-  height: 100%;
-  width: 55%;
-  box-sizing: border-box;
-  align-self: center;
-`;
-const PriceCurrencyWrapper = styled.div`
-  height: 100%;
-  width: 10%;
-  box-sizing: border-box;
-  align-self: center;
-`;
-
-const EditButton = styled.button`
-  height: 100%;
-  width: 10%;
-  box-sizing: border-box;
-  align-self: center;
-  color: white;
-  background-color: #325891;
-  border-style: none;
-  border-radius: 0.3em;
-  border: none;
-  :hover {
-    background-color: #3865ad;
-    cursor: pointer;
-  }
-`;
-const DeleteButton = styled.button`
-  height: 100%;
-  width: 10%;
-  box-sizing: border-box;
-  align-self: center;
-  color: white;
-  background-color: #325891;
-  border-style: none;
-  border-radius: 0.3em;
-  border: none;
-  :hover {
-    background-color: #a24b4b;
-    cursor: pointer;
-  }
-`;

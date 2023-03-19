@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import React, { useContext } from "react";
-import Logo from '../istockphoto-981368726-170667a.jpg';
+import Logo from '../b36cde191e387823d890215d9d552c27.jpg';
 import logoutUser from "../services/logoutUser.js"
 //import UserLogin from "../pages/UserLogin";
 import { Context } from "../context/userContext"
+import {HeadderWrapper,RestaurantName,ButtonNormal, ImageDiv, ButtonPanelDiv, ButtonWarn} from "../styles/css"
 
 const Header = () => {
 
@@ -26,48 +27,18 @@ const Header = () => {
     }
 
     return (
-        <CategoryWrapper>
-            <Image   className="App-header-logo" src={Logo} alt="Logo" />
+        <HeadderWrapper>
+            <ImageDiv>
+                <img src={Logo} alt="Logo" />
+            </ImageDiv>
             <RestaurantName>Restaurant Name</RestaurantName>
-            <LogOutLink className="App-header-logout App-link" hidden={!tokenValue} onClick={ e => handleLogout(e) } href="/">Log out</LogOutLink>
-        </CategoryWrapper>
+            <ButtonPanelDiv>
+                <ButtonNormal hidden={!tokenValue} onClick={ e => handleLogout(e) } href="/">Log out</ButtonNormal>
+                <ButtonWarn>Ejemplo</ButtonWarn>
+            </ButtonPanelDiv>
+
+        </HeadderWrapper>
     )
 }
 
 export default Header;
-
-let CategoryWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    align-items:center;
-    background-color: #538dd4;
-`
-const Image = styled.img`
-    height: 100%;
-    width: 20%;
-    padding: 0.5em;
-    border-radius: 10em;
-    box-sizing: border-box;
-    align-self: center;
-    flex-grow: 0;
-`
-let RestaurantName = styled.h1`
-    height: 100%;
-    width: 70%;
-    box-sizing: border-box;
-    align-self: center;
-    flex-grow: 0;    
-`
-
-let LogOutLink = styled.a`
-    height: 100%;
-    width: 10%;
-    box-sizing: border-box;
-    align-self: center;
-    flex-grow: 0;
-    color: #000000;
-    :hover {
-        color: #fff;
-    }
-`
