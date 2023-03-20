@@ -7,6 +7,8 @@ import editDish from "../services/dish/editDish";
 import deleteDish from "../services/dish/deleteDish.js";
 import ConfirmationYesNo from "../pages/popups/ConfirmationYesNo";
 import {DishWrapper, DishImage, DishDescriptionWrapper, DishPriceCurrencyWrapper, DishEditButton, DishDeleteButton} from "../styles/css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const DishItem = (props) => {
 
@@ -134,10 +136,10 @@ const DishItem = (props) => {
           </p>
         </DishPriceCurrencyWrapper>
         <DishEditButton hidden={!tokenValue} onClick={editDishModal}>
-          Edit
+        <FontAwesomeIcon icon={faPenToSquare} />
         </DishEditButton>
         <DishDeleteButton hidden={!tokenValue} onClick={onDeleteDish}>
-          Delete
+        <FontAwesomeIcon icon={faTrashCan} />
         </DishDeleteButton>
       </DishWrapper>
     );

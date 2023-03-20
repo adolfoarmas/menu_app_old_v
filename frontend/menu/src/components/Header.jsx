@@ -1,10 +1,9 @@
-import styled from 'styled-components';
 import React, { useContext } from "react";
 import Logo from '../b36cde191e387823d890215d9d552c27.jpg';
 import logoutUser from "../services/logoutUser.js"
-//import UserLogin from "../pages/UserLogin";
 import { Context } from "../context/userContext"
-import {HeadderWrapper,RestaurantName,ButtonNormal, ImageDiv, ButtonPanelDiv, ButtonWarn} from "../styles/css"
+import {HeadderWrapper,RestaurantName,ButtonNormal, ImageDiv, ButtonPanelDiv} from "../styles/css"
+import BussinessInformationCard from "./BussinessInformationCard";
 
 const Header = () => {
 
@@ -31,10 +30,9 @@ const Header = () => {
             <ImageDiv>
                 <img src={Logo} alt="Logo" />
             </ImageDiv>
-            <RestaurantName>Restaurant Name</RestaurantName>
+            <BussinessInformationCard />
             <ButtonPanelDiv>
                 <ButtonNormal hidden={!tokenValue} onClick={ e => handleLogout(e) } href="/">Log out</ButtonNormal>
-                <ButtonWarn>Ejemplo</ButtonWarn>
             </ButtonPanelDiv>
 
         </HeadderWrapper>
