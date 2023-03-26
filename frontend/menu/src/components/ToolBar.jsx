@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, { useEffect, useContext } from "react";
-import DishForm from "../pages/forms/DishForm";
-import DishCategoryForm from "../pages/forms/DishCategoryForm";
+import DishForm from "./forms/DishForm";
+import DishCategoryForm from "./forms/DishCategoryForm";
 import {
   CategoriesContext,
   Context,

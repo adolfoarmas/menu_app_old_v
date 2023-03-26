@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from a_menu.models import Dish, Dish_Category
+from a_menu.models import Dish, DishCategory
 from django.contrib.auth import get_user_model
 from a_users.models import UserProfile
 from drf_extra_fields.fields import Base64ImageField
@@ -39,6 +39,7 @@ class DishCategorySerializer(serializers.ModelSerializer):
     #     )
     # dishes = serializers.HyperlinkedRelatedField(many=True, view_name='dish-detail', read_only=True)
     dishes = DishSerializer(many=True, read_only=True)
+    
     class Meta:
-        model = Dish_Category
+        model = DishCategory
         fields = ('id', 'url', 'name','description', 'created_by', 'dishes',)

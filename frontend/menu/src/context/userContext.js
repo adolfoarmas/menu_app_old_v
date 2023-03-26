@@ -22,6 +22,7 @@ const UserContextProvider = ({ children }) => {
     const [userLogged, setUserLogged] = useState(null)
     const [csrfToken, setCsrfToken] = useState(null)
     const [userLoggedId, setUserLoggedId] = useState(null)
+    const [userLoggedName, setUserLoggedName] = useState(null)
     const [updateView, setUpdateView] = useState(1)
     const [dishCategories, setDishCategories] = useState(dishCategoriesApi)
     const [dishes, setDishes] = useState([])
@@ -39,17 +40,24 @@ const UserContextProvider = ({ children }) => {
                 .split('; ')
                 .find((row) => row.startsWith('csrftoken='))
                 ?.split('=')[1];
-        
+        // 
         }
 
         const getUserLoggedId = () => {
           return window.localStorage.getItem('logedUserId')
         }
 
+        const getUserLoggedName = () => {
+            return window.localStorage.getItem('logedUserName')
+          }
+
+
+
         if(getUserLoggedTokenValue) {
           setUserLogged(getUserLoggedTokenValue)
           setCsrfToken(getCsrftokenValue)
           setUserLoggedId(getUserLoggedId)
+          setUserLoggedName(getUserLoggedName)
           //console.log('token', userLogged, 'csfrtoken', csrfToken)
         }
         
@@ -57,11 +65,11 @@ const UserContextProvider = ({ children }) => {
         const dishCategoriesApi = apiData.read();
         setDishCategories(dishCategoriesApi)
 
-      }, [updateView]);
+      }, [])   
 
     return (
     
-      <Context.Provider value={{'token':[userLogged, setUserLogged], 'csfrToken': [csrfToken, setCsrfToken], 'userLoggedId': [userLoggedId, setUserLoggedId]}}>
+      <Context.Provider value={{'token':[userLogged, setUserLogged], 'csfrToken': [csrfToken, setCsrfToken], 'userLoggedId': [userLoggedId, setUserLoggedId], 'userLoggedName': [userLoggedName, setUserLoggedName]}}>
         <CategoriesContext.Provider value={[dishCategories, setDishCategories]}>
           <UpdateViewContext.Provider value={[updateView, setUpdateView]}>
             <ToastVisibilityContext.Provider value={[toastVisible, setToastVisible, toastMessage, setToastMessage, toastType, setToastType]}>

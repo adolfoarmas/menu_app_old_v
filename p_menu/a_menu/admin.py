@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from a_menu.models import Dish, Dish_Category
+from a_menu.models import Dish, DishCategory
 
 # Register your models here.
 admin.site.register(Dish)
-admin.site.register(Dish_Category)
+admin.site.register(DishCategory)

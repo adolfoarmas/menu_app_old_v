@@ -1,14 +1,14 @@
 import styled, { keyframes } from "styled-components";
 
-const backgroundColor = "#262626";
+const backgroundColor = "#e09500b0";
 
 const boxesTextColor = "#000000";
-const boxesBackgroundColor = "#c4c4c4";
+const boxesBackgroundColor = "#ffffff";
 
-const boxesShadow = "0 0.5rem 0.5rem 0.05rem #00000033";
+const boxesShadow = "0 0.3rem 0.3rem 0.03rem #35353533";
 
-const confirmColor = "#4c824c";
-const warnColor = "#a80303";
+const confirmColor = "#409640";
+const warnColor = "#ea3d3d";
 
 const buttonNormalBorder = "0.005rem solid" + boxesTextColor;
 const buttonNormalHoverBorder = buttonNormalBorder;
@@ -16,7 +16,7 @@ const buttonNormalBackgroundColor = boxesBackgroundColor;
 const buttonNormalColor = boxesTextColor;
 
 const butonNormalHoverBackgroundColor = backgroundColor;
-const butonNormalHoverColor = "white";
+const butonNormalHoverColor = boxesTextColor;
 
 const buttonWarnBorder = "0.005rem solid" + warnColor;
 const buttonWarnHoverBorder = "0.005rem solid" + warnColor;
@@ -26,7 +26,7 @@ const buttonWarnColor = warnColor;
 const buttonWarnHoverBackgroundColor = warnColor;
 const buttonWarnHoverColor = "#fff";
 
-const dishHoverBackgroundColor = "#b1b1b1";
+const dishHoverBackgroundColor = backgroundColor;
 
 //---General---
 
@@ -41,7 +41,8 @@ export const ButtonNormal = styled.button`
   border: ${buttonNormalBorder};
   border-radius: 0.5em;
   font-size: 0.8rem;
-  box-shadow: 0px 0.2rem #363535;
+  box-shadow: 0px 0.1rem #363535;
+  transition: 0.5s;
   :hover {
     color: ${butonNormalHoverColor};
     background-color: ${butonNormalHoverBackgroundColor};
@@ -49,8 +50,19 @@ export const ButtonNormal = styled.button`
     cursor: pointer;
   }
   :active{
+    transition: 0.1s;
     box-shadow: 0px 0px;
     transform: translateY(2px); //sinkable button
+  }
+  :disabled{
+    color: #bababa;
+    :hover {
+      background-color: ${buttonNormalBackgroundColor};
+      box-shadow: 0px 0.1rem;
+      transition: 0s;
+    }
+    
+    :active {transform: translateY(0px)}
   }
 `;
 
@@ -58,6 +70,7 @@ export const ButtonWarn = styled(ButtonNormal)`
   color: ${buttonWarnColor};
   background-color: ${buttonWarnBackgroundColor};
   border: ${buttonWarnBorder};
+  box-shadow: 0px 0.2rem ${warnColor};
   :hover {
     color: ${buttonWarnHoverColor};
     background-color: ${buttonWarnHoverBackgroundColor};
@@ -75,13 +88,14 @@ export const FormDiv = styled.div`
   border-radius: 1rem;
   width: 50%;
   background-color: ${boxesBackgroundColor};
+  
 `;
 
 export const FormFieldNameLabel = styled.label` //Forms
   display: flex;
   flex-direction: column;
   height: auto;
-  
+  color: ${boxesTextColor};
   p {
     margin: 0;
   }
@@ -90,6 +104,39 @@ export const FormFieldNameLabel = styled.label` //Forms
 export const FromErrorLabel = styled.label`
   font-size: 0.8em;
   color: #ff0000a2;
+`;
+
+export const InputsDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  width: 100%;
+
+  input,
+  textarea,
+  select {
+    padding: 5px 5px;
+    margin: 0;
+    box-sizing: border-box;
+    border-bottom: 0.2rem solid ${backgroundColor};
+    border-right: 0.01rem none;
+    border-left: none;
+    border-top: none;
+    outline: none;
+    border-radius: 0.4rem;
+    background-color: #eeeeee;
+    :hover{
+      border-bottom: 0.2rem solid ${backgroundColor};
+    }
+
+    :active{
+      border-bottom: 0.2rem solid ${backgroundColor};
+      border-right: 0.01rem none;
+      border-left: none;
+      border-top: none;
+      outline: none;
+    }
+  }
 `;
 
 //---Index---
@@ -113,9 +160,47 @@ export const AppWrapper = styled.div`
   /* align-items: center; */
 
   @media (max-width: 600px) {
-    flex-direction: column;
+    margin: 0 0.3rem;
+
   }
   `;
+
+//---Login---
+
+export const FormLoginDiv=styled(FormDiv)`  
+  border-radius: 0.5rem;
+  width: fit-content;
+  position: absolute;
+  top: 20%;
+  padding: 1rem;
+  svg {
+    height: 3rem;
+  }
+  h2 {
+    text-align: center;
+  }
+
+`;
+
+export const FormLogin = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const LoginButtonGroupDiv=styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  svg {
+    height: 0.8rem;
+  }
+`;
+
+export const ButtonLogin=styled(ButtonNormal)`
+  margin: 0;
+  width:fit-content;
+`;
 
 //---BussinessInformationCard---
 
@@ -126,23 +211,39 @@ export const AppWrapper = styled.div`
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    @media only screen and (max-width: 690px) {
+      order: 3;
+  }
+    
   `;
 
   export const BussinessInformationCardDetail = styled.div`
     display: flex;
     flex-direction: column;
     padding-left: 1rem;
-    /* flex-wrap: wrap; */
+    @media only screen and (max-width: 690px) {
+      padding: 0;
+  }
   `;
 
   export const BussinessInformationCardDetailItem = styled.div`
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    svg {
+      color: ${backgroundColor};
+      border-width: 0.5rem;
+      border-color: black;
+    }
     p {
       padding: 0;
       margin: 0;
     }
+  `;
+
+  export const BussinessName = styled.h1`
+    text-shadow: -0.05rem 0.05rem 0 ${backgroundColor};
+    box-shadow: 0px 0.1rem ${backgroundColor};
   `;
 
 //---Header---
@@ -158,6 +259,12 @@ export const HeadderWrapper = styled.header`
   width: inherit;
   border-radius: 0em 0em 1em 1em;
   box-shadow: ${boxesShadow};
+  
+  @media only screen and (max-width: 690px) {
+    flex-flow: column;
+    gap: 0.5rem;
+  }
+
 `;
 
 export const ImageDiv = styled.div`
@@ -168,19 +275,84 @@ export const ImageDiv = styled.div`
     border-radius: 0em 0em 1em 1em;
   }
   align-self: baseline;
+
+  @media only screen and (max-width: 690px) {
+    order: 2;
+    align-self: center;
+    img {
+      width: 100%;
+      border-radius: 3rem;
+  }
+   
+  }
 `;
 
 
 export const ButtonPanelDiv = styled.div`
   display: flex;
+  flex-direction:column;
   width: 20%;
-  padding: 0.5em;
+  height:100%;
+  padding: 0;
   border-radius: 2em;
   align-self: center;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  flex-grow: 0;
+  button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    p {
+      padding: 0;
+      margin: 0;
+    }
+  }
+  @media only screen and (max-width: 690px) {
+    height: auto;
+    width:auto;
+    order: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    button {
+      margin: 0 1rem;
+      padding: 0.2rem 1rem;
+      height: min-content;
+      justify-content: center;
+      border-radius: 0em 0em 1em 1em;
+      p {
+        display: none;
+      }
+    }
+    
+      
+    
+  }
 `;
+
+//---UserInformation---
+
+export const UserInformationWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 0.3rem;
+  align-items: center;
+  width: min-content;
+  padding: 0 0.5rem;
+  margin: 0;
+  border-radius: 0 0 0.5rem 0.5rem;
+  background-color: lightgreen;
+  p{
+    margin:0;
+  }
+
+  @media only screen and (max-width: 690px) {
+    width: auto;
+    flex-direction: row;
+    justify-content: baseline;
+  }
+`;
+
 
 //---ToolBar---
 
@@ -197,13 +369,16 @@ export const ToolBarWrapper = styled.nav`
 export const DishListContentWrapper = styled.div`
   padding: 0em 0em;
   flex: 1;
-  margin-left: inherit;
-  margin-right: inherit;
   background-color: ${boxesBackgroundColor};
   color: ${boxesTextColor};
   overflow-y: auto;
   border-radius: 1em 1em 0em 0em;
   box-shadow: ${boxesShadow};
+  transition: 0.5s;
+  @media (max-width: 600px) {
+    margin: 0;
+
+  }
 `;
 
 //---Category---
@@ -217,18 +392,19 @@ export const DishListWrapper = styled.div`
 export const CategoryWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  border-radius: 1rem;
+  /* border-radius: 1rem;
   border-style: solid;
-  border-width: 0 0 0.02rem 0;
+  border-width: 0 0 0.02rem 0; */
   height: 100%;
   width: 100%;
 `;
 
 export const CategoryButton = styled(ButtonNormal)`
   display: flex;
+  align-items: center;
   justify-content: space-between;
   height: 100%;
-  width: 90%;
+  width: 100%;
   /* align-self: center; */
 
   p {
@@ -260,21 +436,29 @@ export const DishWrapper = styled.div`
   height: 100%;
   width: 100%;
   box-sizing: border-box;
-  border-radius: 1rem;
-  border-style: solid;
-  border-width: 0 0 0.02rem 0;
-  opacity: 0.75;
+  /* border-radius: 1rem; */
+  /* border-style: solid; */
+  /* border-width: 0 0 0.02rem 0; */
+  opacity: 0.85 ;
   p {
     margin: 0;
   }
   :hover {
+    transition: 0.2s linear;
     opacity: 1;
     background-color: ${dishHoverBackgroundColor};
   }
 `;
+
+export const DishImageDiv = styled.div`
+  max-width: 15%;
+  height: auto;
+`;
+
 export const DishImage = styled.img`
-  height: 100%;
-  width: 15%;
+  max-width: 100%;
+  aspect-ratio: 1/1;
+  float: left;
   padding: 0.5em;
   border-radius: 2em;
   box-sizing: border-box;
@@ -355,8 +539,8 @@ export const ModalHeader = styled.div`
   border-width: 0rem 0rem 0.1rem 0rem;
 
   @media only screen and (max-width: 768px) {
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
   }
 `;
@@ -376,8 +560,8 @@ export const BtnClose = styled(ButtonNormal)`
 
 //---CategoryForm---
 
-export const FormDishCategoryDiv = styled.div`
-  display: flex;
+export const FormDishCategoryDiv = styled(InputsDiv)`
+  /* display: flex;
   flex-flow: column;
   width: 100%;
   height: 100%;
@@ -386,7 +570,7 @@ export const FormDishCategoryDiv = styled.div`
   right: 0;
   left: 0;
   bottom: 0;
-  z-index: 999999999;
+  z-index: 999999999; */
 `;
 
 export const FormDishCategory = styled.form`
@@ -394,6 +578,7 @@ export const FormDishCategory = styled.form`
   padding: 1em;
   align-content: center;
 `;
+
 export const ButtonCreateEdit = styled(ButtonNormal)`
   margin: 1em 0;
   :hover {
@@ -426,39 +611,97 @@ export const ButtonDiv = styled.div`
 `;
 
 export const ImageForm = styled.img`
-  width: 20em;
-  height: 20em;
+  width: 15rem;
+  height: 15rem;
   padding: 5px 5px;
   margin: 0;
   border: 0 solid #ccc;
   border-radius: 1em;
   box-sizing: border-box;
+  align-content: center;
+  @media only screen and (max-width: 768px) {
+    width: 10rem;
+    height: 10rem;
+    gap: 0;
+  }
+  @media only screen and (max-width: 580px) {
+    width: 8rem;
+    height: 8rem;
+  }
 `;
 
 export const ImageFormLabel = styled.label`
-  align-self: center;
-  color: white;
-  background-color: #325891;
-  padding: 0.5em 1.3em;
-  margin: 1em 1em;
-  border-radius: 0.3em;
-  border: 1px black;
-  font-size: 1rem;
-  height: auto;
+
+`;
+
+export const ImageFormButtonLabel = styled.label`
+  display: flex;
+  gap: 0.3rem;
+  outline: none;
+  color: ${buttonNormalColor};
+  background-color: ${buttonNormalBackgroundColor};
+  padding: 0.5em 1em;
+  margin: 0.5em;
+  border: ${buttonNormalBorder};
+  border-radius: 0.5em;
+  font-size: 0.8rem;
+  box-shadow: 0px 0.1rem #363535;
+  transition: 0.5s;
   :hover {
-    background-color: #3865ad;
+    color: ${butonNormalHoverColor};
+    background-color: ${butonNormalHoverBackgroundColor};
+    border: ${buttonNormalHoverBorder};
     cursor: pointer;
+  }
+  :active{
+    transition: 0.1s;
+    box-shadow: 0px 0px;
+    transform: translateY(2px); //sinkable button
+  }
+  :disabled{
+    color: #bababa;
+    :hover {
+      background-color: ${buttonNormalBackgroundColor};
+      box-shadow: 0px 0.1rem;
+      transition: 0s;
+    }
+    
+    :active {transform: translateY(0px)}
+  }
+  svg {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+  p {
+    align-self: center;
+    margin: 0;
   }
 `;
 
 export const ImageInput = styled.input`
+  height:0;
   opacity: 0;
   width: 0;
+`;
+
+export const SelectImageInformationLable = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
+height: 10rem;
+label {
+  align-self: center;
+  text-align: center;
+}
+svg {
+  height: 2rem;
+}
 `;
 
 export const ImageFormDiv = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   button {
     background-color: #7f9ccb;
     padding: 5px 10px;
@@ -469,41 +712,37 @@ export const ImageFormDiv = styled.div`
   }
 `;
 
-export const InputsDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0 50px 0 0;
-  width: 100%;
 
-  input,
-  textarea,
-  select {
-    padding: 5px 5px;
-    margin: 0;
-    border: 0em solid #ccc;
-    box-sizing: border-box;
-  }
-`;
-
+//text and image form container
 export const FormDishDiv = styled.div`
   display: flex;
   flex-flow: row;
+  gap: 1.5rem;
   width: 100%;
   height: 100%;
-  padding: 20px 20px;
+  /* padding: 20px 20px; */
   background: inherit;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
   z-index: 999999999;
+
+  @media only screen and (max-width: 500px) {
+    height: fit-content;
+    flex-direction: column;
+    flex-flow: column-reverse;
+    gap: 0;
+    
+  }
 `;
 
 export const FormDish = styled.form`
   display: flex;
   flex-direction: column;
   padding: 1em;
-  max-width: 80%;
+  /* max-width: 80%; */
+  height: fit-content;
 
   @media only screen and (min-width: 768px) {
     .FormDiv {

@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from .models import Dish_Category, Dish
+from .models import DishCategory, Dish
 
 class DishCategoryTests(TestCase):
     "set up data and test models Disc_Category and Dish"
@@ -20,8 +20,8 @@ class DishCategoryTests(TestCase):
             password="secret",
         )
 
-        """creating dish_category instance"""
-        cls.dish_category = Dish_Category.objects.create(
+        """creating DishCategory instance"""
+        cls.DishCategory = DishCategory.objects.create(
             name="Sandwichs",
             description="Soft wheat bread stuffed with extense variety of meats and vegetables you can choose",
             created_by=cls.user,
@@ -31,7 +31,7 @@ class DishCategoryTests(TestCase):
         cls.dish = Dish.objects.create(
             name="Ham & Cheese",
             description="Ham and Cheese toasted sandwich",
-            category=cls.dish_category,
+            category=cls.DishCategory,
             #test image to insert mandatory image field in temporary db
             image= SimpleUploadedFile(name='test_image.jpg', 
                                       content=open(test_image_path+'espresso-11.jpg', 'rb').read(), 
@@ -41,12 +41,12 @@ class DishCategoryTests(TestCase):
             price=7.5,
         )
 
-    def test_dish_category_model(self):
-        "testing dish_category model"
-        self.assertEqual(self.dish_category.created_by.username, "testuser")
-        self.assertEqual(self.dish_category.name, "Sandwichs")
-        self.assertEqual(self.dish_category.description, "Soft wheat bread stuffed with extense variety of meats and vegetables you can choose")
-        self.assertEqual(str(self.dish_category), "Sandwichs")
+    def test_DishCategory_model(self):
+        "testing DishCategory model"
+        self.assertEqual(self.DishCategory.created_by.username, "testuser")
+        self.assertEqual(self.DishCategory.name, "Sandwichs")
+        self.assertEqual(self.DishCategory.description, "Soft wheat bread stuffed with extense variety of meats and vegetables you can choose")
+        self.assertEqual(str(self.DishCategory), "Sandwichs")
 
     def test_dish(self):
         "testing dish model"

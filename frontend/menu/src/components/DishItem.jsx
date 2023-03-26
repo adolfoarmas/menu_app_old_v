@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import React, { useEffect, useState, useContext } from "react";
 import ModalHook, { useModal } from "../hooks/modalHook";
-import NewDish from "../pages/forms/DishForm";
+import NewDish from "./forms/DishForm";
 import { CategoriesContext, Context, DishesContext, ToastVisibilityContext } from "../context/userContext";
 import editDish from "../services/dish/editDish";
 import deleteDish from "../services/dish/deleteDish.js";
-import ConfirmationYesNo from "../pages/popups/ConfirmationYesNo";
-import {DishWrapper, DishImage, DishDescriptionWrapper, DishPriceCurrencyWrapper, DishEditButton, DishDeleteButton} from "../styles/css";
+import ConfirmationYesNo from "./popups/ConfirmationYesNo";
+import {DishWrapper, DishImage, DishDescriptionWrapper, DishPriceCurrencyWrapper, DishEditButton, DishDeleteButton, DishImageDiv} from "../styles/css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
@@ -103,7 +103,9 @@ const DishItem = (props) => {
       return data
     })
     .then((data) => {
-      setDish(formData);
+      console.log('data from post', data)
+      setDish(data);
+      console.log('dish after change', dish)
       editDishModal()
       displayToast('Dish "' + String(data.name) + '" has been edited!', 'success')
     })
@@ -123,7 +125,9 @@ const DishItem = (props) => {
           modalHook={confirmationModal}
           content={<ConfirmationYesNo message={confirmationModalMessage} onConfirmation={onConfirmation} />}
         />
-        <DishImage src={dish.image} alt={dish.name} />
+        <DishImageDiv>
+          <DishImage src={dish.image} alt={dish.name} />
+        </DishImageDiv>
         <DishDescriptionWrapper>
           <h3>{dish.name}</h3>
           <p>
