@@ -3,6 +3,7 @@ import {
   BusinessCardInformationDiv,
   BussinessInformationCardDetail,
   BussinessInformationCardDetailItem,
+  BussinessName,
 } from "../styles/css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,7 +17,7 @@ import {
 const BussinessInformationCard = () => {
   return (
     <BusinessCardInformationDiv>
-      <h1>Restaurant Name</h1>
+      <BussinessName>Smoker Grills</BussinessName>
       <BussinessInformationCardDetail>
         <BussinessInformationCardDetailItem>
           <FontAwesomeIcon icon={faPhoneAlt} />
@@ -27,12 +28,12 @@ const BussinessInformationCard = () => {
           <p> Open - 24 Hours</p>
         </BussinessInformationCardDetailItem>
         <BussinessInformationCardDetailItem>
-          <FontAwesomeIcon icon={faLocationDot} />
-          <p> 91 All Fooldon St, Brooklyn, NY 11201-1322</p>
-        </BussinessInformationCardDetailItem>
-        <BussinessInformationCardDetailItem>
           <FontAwesomeIcon icon={faMotorcycle} />
           <p> Free with orders over 15$ (7:00 to 11:00 p.m.)</p>
+        </BussinessInformationCardDetailItem>
+        <BussinessInformationCardDetailItem>
+          <FontAwesomeIcon icon={faLocationDot} />
+          <p> 91 All Fooldon St, Brooklyn, NY 11201-1322</p>
         </BussinessInformationCardDetailItem>
       </BussinessInformationCardDetail>
     </BusinessCardInformationDiv>

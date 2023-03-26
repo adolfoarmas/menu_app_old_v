@@ -4,7 +4,7 @@ from django import views
 from a_users.models import UserProfile
 from django.http import JsonResponse
 from django.shortcuts import render
-from a_menu.models import Dish, Dish_Category
+from a_menu.models import Dish, DishCategory
 from rest_framework import generics, permissions, viewsets, filters
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
@@ -79,12 +79,12 @@ class DishDetail(generics.RetrieveUpdateDestroyAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DishCategoryList(generics.ListCreateAPIView):
-    queryset = Dish_Category.objects.all()
+    queryset = DishCategory.objects.all()
     serializer_class = DishCategorySerializer
 
 class DishCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticatedUserOrReadOnlyMenu,)
-    queryset = Dish_Category.objects.all()
+    queryset = DishCategory.objects.all()
     serializer_class = DishCategorySerializer
 
 class UserList(generics.ListCreateAPIView):

@@ -1,16 +1,16 @@
 import styled from "styled-components";
 import React, { useState, useEffect, useContext } from "react";
 import getDishes from "../services/dish/getDish";
-import DishCategoryForm from "../pages/forms/DishCategoryForm";
+import DishCategoryForm from "./forms/DishCategoryForm";
 import DishItem from "./DishItem";
 import ModalHook, { useModal } from "../hooks/modalHook";
 import deleteDishCategory from "../services/dishCategory/deleteDishCategory.js";
 import { CategoriesContext, Context, ToastVisibilityContext, DishesContext } from "../context/userContext";
 import editDishCategory from "../services/dishCategory/editDishCategory";
-import ConfirmationYesNo from "../pages/popups/ConfirmationYesNo";
+import ConfirmationYesNo from "./popups/ConfirmationYesNo";
 import { ButtonDeleteCategory, ButtonEditCategory, CategoryButton, CategoryWrapper, DishListWrapper, } from "../styles/css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare, faTrashCan, faSquareCaretDown, faSquareCaretUp, faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faTrashCan, faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 
 const CategoryItem = ({ data }) => {
@@ -121,19 +121,20 @@ const CategoryItem = ({ data }) => {
           ) : (
             <FontAwesomeIcon icon={faCaretDown} />
           )}
+
         </CategoryButton>
-        <ButtonEditCategory
-          hidden={!tokenValue}
+
+        {tokenValue && <><ButtonEditCategory
           onClick={onEditDishCategoryModal}
         >
           <FontAwesomeIcon icon={faPenToSquare} />
         </ButtonEditCategory>
+
         <ButtonDeleteCategory
-          hidden={!tokenValue}
           onClick={onDeleteDishCategory}
         >
           <FontAwesomeIcon icon={faTrashCan} />
-        </ButtonDeleteCategory>
+        </ButtonDeleteCategory></>}
       </CategoryWrapper>
 
       <DishListWrapper>

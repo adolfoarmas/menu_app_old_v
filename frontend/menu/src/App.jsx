@@ -9,13 +9,18 @@ import { AppWrapper } from './styles/css';
 
 const App = () =>    
 { 
-  return (<AppWrapper>
+  return (
+  <AppWrapper>
     <UserContextProvider>
         <Router>
-            <Header />
-            <ToolBar />
             <Routes>
-                <Route path="/" element={<DishList />} />
+                <Route path="/" element={
+                <>
+                <Header />
+                <ToolBar />
+                <DishList />
+                </>
+                } />
                 <Route path="/login" element={<UserLogin />} />
             </Routes>
         </Router>
