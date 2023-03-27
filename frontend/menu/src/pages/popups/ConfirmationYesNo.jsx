@@ -31,27 +31,6 @@ const ConfirmationYesNo = ({message, onConfirmation}) => {
 
 export default ConfirmationYesNo;
 
-const ButtonDiv = styled.div`
-  button {
-    margin: 0;
-    align-self: center;
-    color: white;
-    background-color: #325891;
-    padding: 0.5em 1.3em;
-    margin: 1em 0em;
-    border-style: none;
-    border-radius: 0.3em;
-    border: none;
-    font-size: 1rem;
-    height: auto;
-    :hover {
-      background-color: #3865ad;
-      cursor: pointer;
-    }
-  }
-`;
-
-
 const FormDiv = styled.div`
   display: flex;
   flex-flow: row;
