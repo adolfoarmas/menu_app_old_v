@@ -187,3 +187,11 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000/'
 )
+
+#CDN
+
+CLOUDINARY = {
+  'cloud_name': 'your_cloud_name',
+  'api_key': 'your_api_key',
+  'api_secret': 'your_api_secret'
+}

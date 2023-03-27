@@ -9,9 +9,10 @@ import { AppWrapper } from './styles/css';
 
 const App = () =>    
 { 
-  return (
+return (
   <AppWrapper>
     <UserContextProvider>
+    
         <Router>
             <Routes>
                 <Route path="/" element={

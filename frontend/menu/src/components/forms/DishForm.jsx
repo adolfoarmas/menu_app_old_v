@@ -207,7 +207,6 @@ const DishForm = ({ data = {}, onSubmit }) => {
             type="file"
             id="image"
             name="image"
-            required
             onChange={handleFileChange}
           />
         </ImageFormDiv>

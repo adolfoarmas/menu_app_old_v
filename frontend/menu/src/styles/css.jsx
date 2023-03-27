@@ -766,7 +766,8 @@ export const FormDish = styled.form`
 //---Toast---
 
 export const Toast = styled.div`
-  width: auto;
+  display: flex;
+  width: fit-content;
   position: fixed;
   bottom: 20px;
   left: 50%;
@@ -774,6 +775,7 @@ export const Toast = styled.div`
   margin-bottom:0;
   padding: 0em 1em;
   transform: translateX(-50%);
+  text-align: center;
   justify-content: center;
   align-items: center;
   border-radius: 0.8rem;
@@ -793,4 +795,8 @@ export const Toast = styled.div`
         return "#325891";
     }
   }};
+  p{
+    margin:0;
+    padding: 0.5rem;
+    }
 `;

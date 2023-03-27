@@ -50,8 +50,8 @@ class Dish(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('', kwargs={'pk': self.pk})  
-
+        return reverse('', kwargs={'pk': self.pk})
+    
     def save(self, *args, **kwargs):
         print(kwargs)
         super().save(*args, **kwargs)
