@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react";
 
 import { Context } from "../../context/userContext";
 import { useEffect } from "react";
+import { ButtonNormal, ButtonWarn } from "../../styles/css";
 
 const ConfirmationYesNo = ({message, onConfirmation}) => {
     //const { token, csfrToken, userLoggedId } = useContext(Context);
@@ -21,13 +22,10 @@ const ConfirmationYesNo = ({message, onConfirmation}) => {
         <div>  
             <p>{message}</p>
         </div>
-        <ButtonDiv>
-            <button onClick={(e) => handleConfirmation(e, true)} type="submit">Yes</button>
-        </ButtonDiv>
-        <ButtonDiv>
-            <button onClick={(e) => handleConfirmation(e, false)} type="reset">No</button>
-        </ButtonDiv>
-    </FormDiv>
+            <ButtonWarn onClick={(e) => handleConfirmation(e, true)} type="submit">Yes</ButtonWarn>
+        
+            <ButtonNormal onClick={(e) => handleConfirmation(e, false)} type="reset">No</ButtonNormal>
+¡    </FormDiv>
   );
 };
 
@@ -53,14 +51,6 @@ const ButtonDiv = styled.div`
   }
 `;
 
-const FieldNameLabel = styled.label`
-  display: flex;
-  flex-direction: column;
-  height: auto;
-  p {
-    margin: 0;
-  }
-`;
 
 const FormDiv = styled.div`
   display: flex;
@@ -76,26 +66,3 @@ const FormDiv = styled.div`
   z-index: 999999999;
 `;
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  padding: 1em;
-  max-width: 80%;
-
-  @media only screen and (min-width: 768px) {
-    .FormDiv {
-      flex-direction: row;
-    }
-  }
-
-  .InputsDiv .ImageFormDiv {
-    flex-basis: 100%;
-    margin: 10px;
-  }
-
-  @media only screen and (min-width: 768px) {
-    .InputsDiv .ImageFormDiv {
-      flex-basis: 50%;
-    }
-  }
-`;
