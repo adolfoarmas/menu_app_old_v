@@ -1,13 +1,11 @@
-from email.mime import base
 from django.db import models
 from django.utils import timezone
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from a_users.models import UserProfile
 from django.urls import reverse
 from PIL import Image
 from django.conf import settings
-import base64, io
-
-
+from io import BytesIO
 
 # Create your models here.
 class DishCategory(models.Model):
@@ -41,32 +39,48 @@ class Dish(models.Model):
     date = models.DateTimeField(default=timezone.now)
     category = models.ForeignKey(DishCategory, related_name='dishes', on_delete=models.CASCADE)
     observation = models.TextField(blank=True)
-    image = models.ImageField(upload_to='./media')
+    image = models.FileField(upload_to='media')
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='created_by', on_delete=models.CASCADE)
     price = models.FloatField(default=0)
     currency = models.CharField(default='USD', max_length=3)
 
-    def __str__(self):
-        return self.name
 
     def get_absolute_url(self):
-        return reverse('', kwargs={'pk': self.pk})  
-
+        return reverse('', kwargs={'pk': self.pk})
+   
+    @property
+    def image_url(self):
+        return f"https://res.cloudinary.com/dc3xqdidh/{self.image}"
+    
+   
     def save(self, *args, **kwargs):
-        print(kwargs)
+        if self.image:
+            #Resize original incoming dish image
+            #Open original image using Pillow.Image class
+            img = Image.open(self.image)
+            img = img.resize((300, 300))
+            #Save the resized image in a BytesIO object
+            output = BytesIO()
+            img.save(output, format='JPEG')
+            #move the pointer at the begining of output before pass to InMemoryUploadedFile
+            output.seek(0) 
+            #Set the content of the file field to the resized image
+            self.image = InMemoryUploadedFile(
+                output,
+                'ImageField',
+                f"{self.image.name.split('.')[0]}.jpg",
+                'image/jpeg',
+                output.getbuffer().nbytes,
+                None
+            )
         super().save(*args, **kwargs)
-        force_height = 150
-        force_width = 150
-        img = Image.open(self.image.path)
-        print(self.image)
-        if img.height > force_height or img.width > force_width:
-            output_size = (force_height,force_width)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
 
     class Meta:
         verbose_name_plural = ('Dishes')
 
+    def __str__(self):
+        return self.name
+    
 
 
 

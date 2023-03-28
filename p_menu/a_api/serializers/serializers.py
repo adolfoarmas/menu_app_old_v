@@ -6,7 +6,6 @@ from drf_extra_fields.fields import Base64ImageField
 from rest_framework.parsers import MultiPartParser
 
 
-
 class UserProfileSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -16,12 +15,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 class DishSerializer(serializers.ModelSerializer):
 
-    image = serializers.FileField()
+    # image = serializers.FileField()
     parser_classes = (MultiPartParser,)
 
     class Meta:
         model = Dish
-        fields = ['id', 'url', 'name', 'description', 'date', 'category', 'observation', 'image', 'created_by', 'price', 'currency']
+        # fields = '__all__'
+        fields = ['id', 'url', 'name', 'description', 'date', 'category', 'observation', 'image_url', 'image', 'created_by', 'price', 'currency']
+
 
     def validate_image(self, value):
 

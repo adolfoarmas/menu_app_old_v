@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import dotenv_values
+from os.path import join, dirname
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent #'/home/<user>/menu_app/p_menu'
 
 
 # Quick-start development settings - unsuitable for production
@@ -53,6 +55,9 @@ INSTALLED_APPS = [
     'a_menu.apps.AMenuConfig',
     'a_api.apps.AApiConfig',
     'a_users.apps.AUsersConfig',
+    'cloudinary_storage', #CDN to save mediafiles it comes before .staticfiles
+    'cloudinary',
+    
 
 ]
 
@@ -166,13 +171,28 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+#DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+#CDN
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+dotenv_path = join(BASE_DIR, 'secrets.env')
+print(dotenv_path)
+env_values = dotenv_values(dotenv_path)
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME" : env_values['CLOUD_NAME'],
+    "API_KEY" : env_values['API_KEY'],
+    "API_SECRET" : env_values['API_SECRET'],
+}
+
+
+
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+# MEDIA_ROOT = BASE_DIR + MEDIA_URL
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -187,3 +207,4 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000/'
 )
+

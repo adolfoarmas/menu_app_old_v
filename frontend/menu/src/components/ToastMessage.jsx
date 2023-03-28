@@ -4,27 +4,36 @@ import { ToastVisibilityContext } from "../context/userContext";
 import { Toast } from "../styles/css";
 
 const ToastMessage = ({ message, type, duration }) => {
-//   const [isVisible, setIsVisible] = useState(false);
-  const [toastVisible, setToastVisible, toastMessage, setToastMessage, toastType, setToastType] = useContext(ToastVisibilityContext);
+  //   const [isVisible, setIsVisible] = useState(false);
+  const [
+    toastVisible,
+    setToastVisible,
+    toastMessage,
+    setToastMessage,
+    toastType,
+    setToastType,
+  ] = useContext(ToastVisibilityContext);
 
   useEffect(() => {
     // setIsVisible(true)
     const timeoutId = setTimeout(() => {
-        setToastVisible(!toastVisible);
-        setToastMessage('')
-        setToastType('')
-
+      setToastVisible(!toastVisible);
+      setToastMessage("");
+      setToastType("");
     }, duration);
     return () => clearTimeout(timeoutId);
   }, [duration]);
 
   return (
-    <Toast type={type} hidden={!toastVisible}> 
-      {console.log('message: ', message)} 
-      <p>{message}</p>
-    </Toast>
+    <>
+      {toastVisible && (
+        <Toast type={type}>
+          {console.log("message: ", message)}
+          <p>{message}</p>
+        </Toast>
+      )}
+    </>
   );
 };
 
 export default ToastMessage;
-
