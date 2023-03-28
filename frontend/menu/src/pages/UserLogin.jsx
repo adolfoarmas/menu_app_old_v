@@ -101,12 +101,16 @@ const UserLogin = () => {
       <FormLogin className="login-form-form" onSubmit={(e) => handleSubmit(e)}>
         <FormFieldNameLabel>
           <p>Username</p>
-          <input type="text" onChange={(e) => setUserName(e.target.value)} />
+          <input 
+          type="text" 
+          required
+          onChange={(e) => setUserName(e.target.value)} />
         </FormFieldNameLabel>
         <FormFieldNameLabel>
           <p>Password</p>
           <input
             type="password"
+            required
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormFieldNameLabel>

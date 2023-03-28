@@ -383,10 +383,14 @@ export const DishListContentWrapper = styled.div`
 
 //---Category---
 
+
+
+
 export const DishListWrapper = styled.div`
   gap: 1rem;
   box-sizing: border-box;
   align-self: center;
+  
 `;
 
 export const CategoryWrapper = styled.div`
@@ -430,16 +434,28 @@ export const ButtonDeleteCategory = styled(ButtonWarn)`
 
 //---Dish---
 
+const display = keyframes`
+
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.85;
+  }
+`;
+
 export const DishWrapper = styled.div`
   display: flex;
   flex-direction: row;
   height: 100%;
   width: 100%;
   box-sizing: border-box;
-  /* border-radius: 1rem; */
-  /* border-style: solid; */
-  /* border-width: 0 0 0.02rem 0; */
   opacity: 0.85 ;
+  animation: ${display} 0.3s ease-in;
+  
   p {
     margin: 0;
   }

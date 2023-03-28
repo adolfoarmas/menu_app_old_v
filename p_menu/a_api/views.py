@@ -25,19 +25,6 @@ from a_api.serializers.serializers import UserProfileSerializer
 
 from .serializers.serializers import DishSerializer, DishCategorySerializer
 
-#from django.contrib.auth import logout
-
-
-# def getRoutes(Request):
-    
-#     routes = [ {
-#             'Endpoint': '/dishes/',
-#             'method': 'GET',
-#             'body': None,
-#             'description': 'Returns an array of restaurant available dishes'
-#         },]
-
-#     return JsonResponse(routes, safe=False)
 
 class DishList(generics.ListCreateAPIView):
     queryset = Dish.objects.all()
@@ -47,9 +34,9 @@ class DishList(generics.ListCreateAPIView):
 
 class DishDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticatedUserOrReadOnlyMenu,)
-    queryset = Dish.objects.all()
     serializer_class = DishSerializer
-
+    queryset = Dish.objects.all()
+    """
     def put(self, request, pk):
         file = request.data.get('image')
         if file:
@@ -77,7 +64,8 @@ class DishDetail(generics.RetrieveUpdateDestroyAPIView):
         else:
             print('serializer is not valid')
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+        """
+    
 class DishCategoryList(generics.ListCreateAPIView):
     queryset = DishCategory.objects.all()
     serializer_class = DishCategorySerializer

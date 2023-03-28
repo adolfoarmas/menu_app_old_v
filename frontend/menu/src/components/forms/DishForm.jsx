@@ -43,7 +43,7 @@ const DishForm = ({ data = {}, onSubmit }) => {
       }));
     }
     //if it is for edit
-    setImagePreview(data.image);
+    setImagePreview(data.image_url);
   }, []);
 
   const handleSubmit = async (event) => {
@@ -186,7 +186,7 @@ const DishForm = ({ data = {}, onSubmit }) => {
           <FormFieldNameLabel className="new-dish-form-form-picture">
             Picture:
           </FormFieldNameLabel>
-          {!formData.image ? (
+          {!formData.image_url ? (
             <>
             <SelectImageInformationLable>
               <label>Upload a refecence picture to your dish:</label>
@@ -196,17 +196,17 @@ const DishForm = ({ data = {}, onSubmit }) => {
             </>
           ) : (
               <ImageForm
-                name="image"
+                name="image_url"
                 src={imagePreview}
                 alt="dish selected file"
               />
             
           )}
-          <ImageFormButtonLabel htmlFor="image"><FontAwesomeIcon icon={faCloudArrowUp} /><p>{!formData.image ? 'Upload': 'Change' }</p></ImageFormButtonLabel>
+          <ImageFormButtonLabel htmlFor="image_url"><FontAwesomeIcon icon={faCloudArrowUp} /><p>{!formData.image_url ? 'Upload': 'Change' }</p></ImageFormButtonLabel>
           <ImageInput
             type="file"
-            id="image"
-            name="image"
+            id="image_url"
+            name="image_url"
             onChange={handleFileChange}
           />
         </ImageFormDiv>
