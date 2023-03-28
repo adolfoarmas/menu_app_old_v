@@ -1,14 +1,11 @@
-from email.mime import base
 from django.db import models
 from django.utils import timezone
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from a_users.models import UserProfile
 from django.urls import reverse
 from PIL import Image
 from django.conf import settings
-import base64, io
-from cloudinary.models import CloudinaryField
-
-
+from io import BytesIO
 
 # Create your models here.
 class DishCategory(models.Model):
@@ -57,17 +54,26 @@ class Dish(models.Model):
     
    
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs) # here is why original size image get save
-        force_height = 250
-        force_width = 250
-        img = Image.open(self.image)
-        print(self.image)
-        if img.height > force_height or img.width > force_width:
-            output_size = (force_height,force_width)
-            img.thumbnail(output_size)
-            print(self.image.__format__)
-            img.save(self.image)
-
+        if self.image:
+            #Resize original incoming dish image
+            #Open original image using Pillow.Image class
+            img = Image.open(self.image)
+            img = img.resize((300, 300))
+            #Save the resized image in a BytesIO object
+            output = BytesIO()
+            img.save(output, format='JPEG')
+            #move the pointer at the begining of output before pass to InMemoryUploadedFile
+            output.seek(0) 
+            #Set the content of the file field to the resized image
+            self.image = InMemoryUploadedFile(
+                output,
+                'ImageField',
+                f"{self.image.name.split('.')[0]}.jpg",
+                'image/jpeg',
+                output.getbuffer().nbytes,
+                None
+            )
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = ('Dishes')
