@@ -57,16 +57,16 @@ class Dish(models.Model):
     
    
     def save(self, *args, **kwargs):
-        # print(kwargs)
         super().save(*args, **kwargs) # here is why original size image get save
-        # force_height = 250
-        # force_width = 250
-        # img = Image.open(self.image)
-        # print(self.image)
-        # if img.height > force_height or img.width > force_width:
-        #     output_size = (force_height,force_width)
-        #     img.thumbnail(output_size)
-        #     img.save(self.image)
+        force_height = 250
+        force_width = 250
+        img = Image.open(self.image)
+        print(self.image)
+        if img.height > force_height or img.width > force_width:
+            output_size = (force_height,force_width)
+            img.thumbnail(output_size)
+            print(self.image.__format__)
+            img.save(self.image)
 
 
     class Meta:
