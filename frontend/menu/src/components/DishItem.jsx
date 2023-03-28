@@ -103,9 +103,7 @@ const DishItem = (props) => {
       return data
     })
     .then((data) => {
-      console.log('data from post', data)
       setDish(data);
-      console.log('dish after change', dish)
       editDishModal()
       displayToast('Dish "' + String(data.name) + '" has been edited!', 'success')
     })
@@ -114,9 +112,10 @@ const DishItem = (props) => {
     })
   };
 
-  if (props.visible && dish) {
+  if(props.visible && dish){
     return (
-      <DishWrapper>
+        
+        <DishWrapper>
         <ModalHook
           modalHook={editDishHook}
           content={<NewDish data={dish} onSubmit={onSubmit} />}
@@ -139,15 +138,18 @@ const DishItem = (props) => {
             {dish.currency} {dish.price}
           </p>
         </DishPriceCurrencyWrapper>
-        <DishEditButton hidden={!tokenValue} onClick={editDishModal}>
+        {tokenValue && <>
+        <DishEditButton onClick={editDishModal}>
         <FontAwesomeIcon icon={faPenToSquare} />
         </DishEditButton>
-        <DishDeleteButton hidden={!tokenValue} onClick={onDeleteDish}>
+        <DishDeleteButton onClick={onDeleteDish}>
         <FontAwesomeIcon icon={faTrashCan} />
         </DishDeleteButton>
+        </>
+        }
       </DishWrapper>
     );
   }
-};
+}
 
 export default DishItem;

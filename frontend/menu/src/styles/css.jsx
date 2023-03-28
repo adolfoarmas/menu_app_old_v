@@ -383,10 +383,14 @@ export const DishListContentWrapper = styled.div`
 
 //---Category---
 
+
+
+
 export const DishListWrapper = styled.div`
   gap: 1rem;
   box-sizing: border-box;
   align-self: center;
+  
 `;
 
 export const CategoryWrapper = styled.div`
@@ -430,16 +434,28 @@ export const ButtonDeleteCategory = styled(ButtonWarn)`
 
 //---Dish---
 
+const display = keyframes`
+
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.85;
+  }
+`;
+
 export const DishWrapper = styled.div`
   display: flex;
   flex-direction: row;
   height: 100%;
   width: 100%;
   box-sizing: border-box;
-  /* border-radius: 1rem; */
-  /* border-style: solid; */
-  /* border-width: 0 0 0.02rem 0; */
   opacity: 0.85 ;
+  animation: ${display} 0.3s ease-in;
+  
   p {
     margin: 0;
   }
@@ -766,7 +782,8 @@ export const FormDish = styled.form`
 //---Toast---
 
 export const Toast = styled.div`
-  width: auto;
+  display: flex;
+  width: fit-content;
   position: fixed;
   bottom: 20px;
   left: 50%;
@@ -774,6 +791,7 @@ export const Toast = styled.div`
   margin-bottom:0;
   padding: 0em 1em;
   transform: translateX(-50%);
+  text-align: center;
   justify-content: center;
   align-items: center;
   border-radius: 0.8rem;
@@ -793,4 +811,8 @@ export const Toast = styled.div`
         return "#325891";
     }
   }};
+  p{
+    margin:0;
+    padding: 0.5rem;
+    }
 `;

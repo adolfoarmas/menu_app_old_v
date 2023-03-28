@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import cloudinary
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -53,6 +54,9 @@ INSTALLED_APPS = [
     'a_menu.apps.AMenuConfig',
     'a_api.apps.AApiConfig',
     'a_users.apps.AUsersConfig',
+    'cloudinary_storage', #CDN to save mediafiles it comes before .staticfiles
+    'cloudinary',
+    
 
 ]
 
@@ -166,13 +170,24 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+#DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+#CDN
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME" : "dc3xqdidh",
+    "API_KEY" : "799574883522845",
+    "API_SECRET" : "PJZwGFAhEaACn1FaMQmT2jn26RI",
+}
+
+
+
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+# MEDIA_ROOT = BASE_DIR + MEDIA_URL
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -187,3 +202,4 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000/'
 )
+
