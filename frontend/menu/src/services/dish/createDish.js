@@ -28,8 +28,8 @@ export default async function createDish(payload, token, csfrToken,){
         body: payload
     })
     .then(handleErrors)
-    .then(data => {
-        return data
+    .then(async data => {
+        return await data
     })
     .catch(error => {
         throw error.message

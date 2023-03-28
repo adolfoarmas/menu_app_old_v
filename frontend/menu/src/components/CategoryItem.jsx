@@ -59,6 +59,7 @@ const CategoryItem = ({ data }) => {
       dishCategories.splice(indexToEdit, 1) //modifies existing array
       setDishCategories(dishCategories)
       displayToast('Category "' + String(nameDeleted) + '" has been deleted!', 'success')
+      confirmationModal.changeShow();
     })
     .catch(data => {
       displayToast(data, 'error')

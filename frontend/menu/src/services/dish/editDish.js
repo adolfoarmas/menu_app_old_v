@@ -21,15 +21,15 @@ export default async function editDish(payload, dishId, token, csfrToken){
     return fetch(DISHES_END_POINT + dishId + '/', {
         method: 'PUT',
         headers: {
-            //'Content-Type': 'application/json',
+            // 'Content-Type': 'multipart/form-data',
             'Authorization': `Token` + token, 
             'X-CSRFToken':  csfrToken
         },
         body: payload
     })
     .then(handleErrors)
-    .then(data => {
-        return data
+    .then(async data => {
+        return await data
     })
     .catch(error => {
         throw error.message
