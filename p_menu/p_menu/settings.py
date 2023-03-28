@@ -11,11 +11,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-import cloudinary
+from dotenv import dotenv_values
+from os.path import join, dirname
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent #'/home/<user>/menu_app/p_menu'
 
 
 # Quick-start development settings - unsuitable for production
@@ -173,10 +174,14 @@ USE_TZ = True
 #DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 #CDN
 
+dotenv_path = join(BASE_DIR, 'secrets.env')
+print(dotenv_path)
+env_values = dotenv_values(dotenv_path)
+
 CLOUDINARY_STORAGE = {
-    "CLOUD_NAME" : "dc3xqdidh",
-    "API_KEY" : "799574883522845",
-    "API_SECRET" : "PJZwGFAhEaACn1FaMQmT2jn26RI",
+    "CLOUD_NAME" : env_values['CLOUD_NAME'],
+    "API_KEY" : env_values['API_KEY'],
+    "API_SECRET" : env_values['API_SECRET'],
 }
 
 
