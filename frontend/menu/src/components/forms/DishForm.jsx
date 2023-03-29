@@ -186,10 +186,11 @@ const DishForm = ({ data = {}, onSubmit }) => {
           <FormFieldNameLabel className="new-dish-form-form-picture">
             Picture:
           </FormFieldNameLabel>
-          {!formData.image_url ? (
+          {!formData.image ? (
             <>
             <SelectImageInformationLable>
               <label>Upload a refecence picture to your dish:</label>
+              <label>Allowed format jpeg/jpg</label>
               <FontAwesomeIcon icon={faCamera} />
               </SelectImageInformationLable>
             
@@ -202,7 +203,7 @@ const DishForm = ({ data = {}, onSubmit }) => {
               />
             
           )}
-          <ImageFormButtonLabel htmlFor="image_url"><FontAwesomeIcon icon={faCloudArrowUp} /><p>{!formData.image_url ? 'Upload': 'Change' }</p></ImageFormButtonLabel>
+          <ImageFormButtonLabel htmlFor="image_url"><FontAwesomeIcon icon={faCloudArrowUp} /><p>{!formData.image ? 'Upload': 'Change' }</p></ImageFormButtonLabel>
           <ImageInput
             type="file"
             id="image_url"
