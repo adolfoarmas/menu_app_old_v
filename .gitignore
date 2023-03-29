@@ -1,4 +1,3 @@
-media/
 env/
-frontend/menu/node_modules
+frontend/menu/node_modules/*
 p_menu/secrets.env
